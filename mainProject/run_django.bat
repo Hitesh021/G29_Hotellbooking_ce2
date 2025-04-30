@@ -1,0 +1,3 @@
+@echo off
+echo Running Django with correct Python path...
+"C:\Users\singh\AppData\Local\Programs\Python\Python312\python.exe" manage.py runserver 

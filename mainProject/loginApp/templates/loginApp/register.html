@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Register | The Palatin</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Google Fonts: Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #f5f5f5;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .register-card {
+      background-color: #1e1e1e;
+      color: #fff;
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .form-label {
+      color: #c47a59;
+      font-weight: 500;
+    }
+
+    .form-control,
+    .form-select {
+      background-color: #2a2a2a;
+      color: #fff;
+      border: 1px solid #444;
+      border-radius: 10px;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+      border-color: #c47a59;
+      box-shadow: 0 0 0 0.2rem rgba(196, 122, 89, 0.25);
+      background-color: #2a2a2a;
+      color: #fff;
+    }
+
+    .btn-success {
+      background-color: #c47a59;
+      border: none;
+      border-radius: 10px;
+      font-weight: 600;
+    }
+
+    .btn-success:hover {
+      background-color: #b06a4f;
+    }
+
+    a {
+      color: #c47a59;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .alert {
+      border-radius: 8px;
+    }
+
+    h3 {
+      color: #fff;
+      font-weight: 600;
+    }
+  </style>
+
+  <script>
+    function toggleHotelField() {
+      const roleSelect = document.getElementById('role');
+      const hotelField = document.getElementById('hotel-field');
+      const hotelInput = document.getElementById('hotel_name');
+
+      if (roleSelect.value === 'manager') {
+        hotelField.style.display = 'block';
+        hotelInput.required = true;
+      } else {
+        hotelField.style.display = 'none';
+        hotelInput.required = false;
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      toggleHotelField();
+      document.getElementById('role').addEventListener('change', toggleHotelField);
+    });
+  </script>
+</head>
+<body>
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="register-card">
+          <h3 class="text-center mb-4">📝 Register Your Account</h3>
+
+          {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            {% endfor %}
+          {% endif %}
+
+          <form method="POST" novalidate>
+            {% csrf_token %}
+            <div class="mb-3">
+              <label for="username" class="form-label">Username</label>
+              <input type="text" class="form-control" name="username" id="username" placeholder="Enter username" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input type="password" class="form-control" name="password" id="password" placeholder="Create password" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="confirm_password" class="form-label">Confirm Password</label>
+              <input type="password" class="form-control" name="confirm_password" id="confirm_password" placeholder="Confirm password" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="role" class="form-label">Select Role</label>
+              <select name="role" class="form-select" id="role" required>
+                <option value="">-- Select Role --</option>
+                <option value="customer">Customer</option>
+                <option value="manager">Manager</option>
+              </select>
+            </div>
+
+            <div class="mb-3" id="hotel-field" style="display: none;">
+              <label for="hotel_name" class="form-label">Hotel Name (for Managers)</label>
+              <input type="text" class="form-control" name="hotel_name" id="hotel_name" placeholder="Enter hotel name">
+            </div>
+
+            <button type="submit" class="btn btn-success w-100">Register</button>
+          </form>
+
+          <div class="text-center mt-3">
+            <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

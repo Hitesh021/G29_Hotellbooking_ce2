@@ -1,0 +1,384 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Search Results - Bookify{% endblock %}
+
+{% block uniqueArea %}
+    <!-- ##### Breadcumb Area Start ##### -->
+    <section class="breadcumb-area bg-img d-flex align-items-center justify-content-center" style="background-image: url(../static/img/bg-img/bg-6.jpg);">
+        <div class="bradcumbContent">
+            <h2>Search Results</h2>
+        </div>
+    </section>
+    <!-- ##### Breadcumb Area End ##### -->
+
+    <!-- ##### Search Summary Area Start ##### -->
+    <div class="book-now-area">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-10">
+                    <div class="search-summary">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h4>{{ destination|default:"Your Destination" }}</h4>
+                                <p>{{ check_in|default:"Check-in date" }} to {{ check_out|default:"Check-out date" }} • {{ adults|default:"2" }} Adults, {{ children|default:"0" }} Children</p>
+                            </div>
+                            <div class="col-md-4 text-right">
+                                <button class="btn palatin-btn" data-toggle="modal" data-target="#modifySearchModal">Modify Search</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ##### Search Summary Area End ##### -->
+
+    <!-- ##### Filter & Results Area Start ##### -->
+    <section class="rooms-area section-padding-0-100">
+        <div class="container">
+            <div class="row">
+                <!-- Filters Sidebar -->
+                <div class="col-12 col-md-3">
+                    <div class="hotel-filters mb-50">
+                        <h4>Filter Results</h4>
+                        
+                        <!-- Price Range Filter -->
+                        <div class="filter-group">
+                            <h5>Price Range</h5>
+                            <div class="price-slider-container">
+                                <input type="range" min="0" max="1000" value="500" class="price-slider" id="priceRange">
+                                <div class="price-range-display">
+                                    <span>$0</span>
+                                    <span id="priceRangeValue">$500</span>
+                                    <span>$1000</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Hotel Star Rating -->
+                        <div class="filter-group">
+                            <h5>Star Rating</h5>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="5" id="star5">
+                                <label class="form-check-label" for="star5">
+                                    <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="4" id="star4">
+                                <label class="form-check-label" for="star4">
+                                    <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="3" id="star3">
+                                <label class="form-check-label" for="star3">
+                                    <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="2" id="star2">
+                                <label class="form-check-label" for="star2">
+                                    <i class="fa fa-star"></i><i class="fa fa-star"></i>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- Amenities -->
+                        <div class="filter-group">
+                            <h5>Amenities</h5>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="wifi" id="wifi">
+                                <label class="form-check-label" for="wifi">Free WiFi</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="breakfast" id="breakfast">
+                                <label class="form-check-label" for="breakfast">Breakfast Included</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="pool" id="pool">
+                                <label class="form-check-label" for="pool">Swimming Pool</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="parking" id="parking">
+                                <label class="form-check-label" for="parking">Free Parking</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="ac" id="ac">
+                                <label class="form-check-label" for="ac">Air Conditioning</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="gym" id="gym">
+                                <label class="form-check-label" for="gym">Fitness Center</label>
+                            </div>
+                        </div>
+                        
+                        <!-- Apply Filters Button -->
+                        <button class="btn palatin-btn w-100 mt-30" id="applyFilters">Apply Filters</button>
+                    </div>
+                </div>
+                
+                <!-- Hotel Results -->
+                <div class="col-12 col-md-9">
+                    <!-- Sort Options -->
+                    <div class="sort-options mb-30 d-flex justify-content-between align-items-center">
+                        <p><span id="resultCount">9</span> hotels found</p>
+                        <div class="sort-dropdown">
+                            <select class="form-control" id="sortOptions">
+                                <option value="recommended">Recommended</option>
+                                <option value="price-low">Price: Low to High</option>
+                                <option value="price-high">Price: High to Low</option>
+                                <option value="rating">Guest Rating</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Hotel Results Grid -->
+                    <div class="row">
+                        <!-- Hotel Item 1 -->
+                        <div class="col-12 mb-50">
+                            <div class="single-hotel-result wow fadeInUp" data-wow-delay="100ms">
+                                <div class="row no-gutters">
+                                    <div class="col-md-4">
+                                        <div class="hotel-thumbnail bg-img" style="background-image: url(../static/img/bg-img/1.jpg);"></div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="hotel-info p-4">
+                                            <div class="d-flex justify-content-between">
+                                                <h4>Grand Luxury Hotel</h4>
+                                                <div class="hotel-rating">
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                </div>
+                                            </div>
+                                            <p class="hotel-location"><i class="fa fa-map-marker"></i> Downtown, New York</p>
+                                            <div class="hotel-amenities mb-3">
+                                                <span><i class="fa fa-wifi" title="Free WiFi"></i></span>
+                                                <span><i class="fa fa-coffee" title="Breakfast Included"></i></span>
+                                                <span><i class="fa fa-swimming-pool" title="Swimming Pool"></i></span>
+                                                <span><i class="fa fa-car" title="Free Parking"></i></span>
+                                                <span><i class="fa fa-snowflake-o" title="Air Conditioning"></i></span>
+                                            </div>
+                                            <p class="hotel-description">Luxurious rooms with stunning city views, world-class dining, and exceptional service in the heart of Manhattan.</p>
+                                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                                <div class="price-info">
+                                                    <p class="mb-0">From</p>
+                                                    <h4 class="mb-0">$299<span>/night</span></h4>
+                                                </div>
+                                                <a href="#" class="btn palatin-btn">View Rooms</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Hotel Item 2 -->
+                        <div class="col-12 mb-50">
+                            <div class="single-hotel-result wow fadeInUp" data-wow-delay="200ms">
+                                <div class="row no-gutters">
+                                    <div class="col-md-4">
+                                        <div class="hotel-thumbnail bg-img" style="background-image: url(../static/img/bg-img/8.jpg);"></div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="hotel-info p-4">
+                                            <div class="d-flex justify-content-between">
+                                                <h4>Seaside Resort & Spa</h4>
+                                                <div class="hotel-rating">
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star-half-o"></i>
+                                                </div>
+                                            </div>
+                                            <p class="hotel-location"><i class="fa fa-map-marker"></i> Beachfront, Miami</p>
+                                            <div class="hotel-amenities mb-3">
+                                                <span><i class="fa fa-wifi" title="Free WiFi"></i></span>
+                                                <span><i class="fa fa-coffee" title="Breakfast Included"></i></span>
+                                                <span><i class="fa fa-swimming-pool" title="Swimming Pool"></i></span>
+                                                <span><i class="fa fa-spa" title="Spa Services"></i></span>
+                                                <span><i class="fa fa-snowflake-o" title="Air Conditioning"></i></span>
+                                            </div>
+                                            <p class="hotel-description">Beachfront paradise with private balconies, infinity pools, and a full-service spa offering rejuvenating treatments.</p>
+                                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                                <div class="price-info">
+                                                    <p class="mb-0">From</p>
+                                                    <h4 class="mb-0">$249<span>/night</span></h4>
+                                                </div>
+                                                <a href="#" class="btn palatin-btn">View Rooms</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Hotel Item 3 -->
+                        <div class="col-12 mb-50">
+                            <div class="single-hotel-result wow fadeInUp" data-wow-delay="300ms">
+                                <div class="row no-gutters">
+                                    <div class="col-md-4">
+                                        <div class="hotel-thumbnail bg-img" style="background-image: url(../static/img/bg-img/9.jpg);"></div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="hotel-info p-4">
+                                            <div class="d-flex justify-content-between">
+                                                <h4>Mountain View Lodge</h4>
+                                                <div class="hotel-rating">
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                </div>
+                                            </div>
+                                            <p class="hotel-location"><i class="fa fa-map-marker"></i> Alpine Region, Colorado</p>
+                                            <div class="hotel-amenities mb-3">
+                                                <span><i class="fa fa-wifi" title="Free WiFi"></i></span>
+                                                <span><i class="fa fa-coffee" title="Breakfast Included"></i></span>
+                                                <span><i class="fa fa-car" title="Free Parking"></i></span>
+                                                <span><i class="fa fa-fire" title="Fireplace"></i></span>
+                                                <span><i class="fa fa-snowflake-o" title="Air Conditioning"></i></span>
+                                            </div>
+                                            <p class="hotel-description">Cozy mountain retreat with rustic charm, stunning views, and easy access to hiking trails and ski slopes.</p>
+                                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                                <div class="price-info">
+                                                    <p class="mb-0">From</p>
+                                                    <h4 class="mb-0">$189<span>/night</span></h4>
+                                                </div>
+                                                <a href="#" class="btn palatin-btn">View Rooms</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Pagination -->
+                        <div class="col-12">
+                            <div class="pagination-area wow fadeInUp" data-wow-delay="400ms">
+                                <nav>
+                                    <ul class="pagination">
+                                        <li class="page-item active"><a class="page-link" href="#">01.</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">02.</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">03.</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ##### Filter & Results Area End ##### -->
+
+    <!-- ##### Modify Search Modal ##### -->
+    <div class="modal fade" id="modifySearchModal" tabindex="-1" role="dialog" aria-labelledby="modifySearchModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modifySearchModalLabel">Modify Your Search</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{% url 'rooms' %}" method="get">
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <div class="form-group">
+                                    <label for="destination">Destination</label>
+                                    <input type="text" class="form-control" id="destination" name="destination" value="{{ destination|default:'' }}" placeholder="Where are you going?">
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label for="check_in">Check-in Date</label>
+                                    <input type="date" class="form-control" id="check_in" name="check_in" value="{{ check_in|default:'' }}">
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label for="check_out">Check-out Date</label>
+                                    <input type="date" class="form-control" id="check_out" name="check_out" value="{{ check_out|default:'' }}">
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label for="adults">Adults</label>
+                                    <select class="form-control" id="adults" name="adults">
+                                        <option value="1" {% if adults == '1' %}selected{% endif %}>1 Adult</option>
+                                        <option value="2" {% if adults == '2' or not adults %}selected{% endif %}>2 Adults</option>
+                                        <option value="3" {% if adults == '3' %}selected{% endif %}>3 Adults</option>
+                                        <option value="4" {% if adults == '4' %}selected{% endif %}>4 Adults</option>
+                                        <option value="5" {% if adults == '5' %}selected{% endif %}>5+ Adults</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label for="children">Children</label>
+                                    <select class="form-control" id="children" name="children">
+                                        <option value="0" {% if children == '0' or not children %}selected{% endif %}>No Children</option>
+                                        <option value="1" {% if children == '1' %}selected{% endif %}>1 Child</option>
+                                        <option value="2" {% if children == '2' %}selected{% endif %}>2 Children</option>
+                                        <option value="3" {% if children == '3' %}selected{% endif %}>3 Children</option>
+                                        <option value="4" {% if children == '4' %}selected{% endif %}>4+ Children</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn palatin-btn w-100">Search Hotels</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extraScripts %}
+<script>
+    // Price range slider
+    const priceRange = document.getElementById('priceRange');
+    const priceRangeValue = document.getElementById('priceRangeValue');
+    
+    priceRange.addEventListener('input', function() {
+        priceRangeValue.textContent = '$' + this.value;
+    });
+    
+    // Apply filters functionality
+    document.getElementById('applyFilters').addEventListener('click', function() {
+        // In a real implementation, this would filter the results based on selected criteria
+        // For now, we'll just show an alert
+        alert('Filters applied! This would be connected to the backend in a real implementation.');
+    });
+    
+    // Sort options functionality
+    document.getElementById('sortOptions').addEventListener('change', function() {
+        // In a real implementation, this would sort the results based on the selected option
+        // For now, we'll just show an alert
+        alert('Sorting by: ' + this.options[this.selectedIndex].text);
+    });
+    
+    // Check if the page was accessed directly (not through search)
+    document.addEventListener('DOMContentLoaded', function() {
+        // In a real implementation, this would check if search parameters exist
+        // If not, it would redirect to the home page
+        // For demonstration purposes, we're just checking URL parameters
+        
+        const urlParams = new URLSearchParams(window.location.search);
+        if (!urlParams.has('destination') && !urlParams.has('check_in') && !urlParams.has('check_out')) {
+            // This is where you would redirect in a real implementation
+            // window.location.href = '/'; // Uncomment this in production
+            
+            // For now, just show a message
+            console.log('This page should be accessed through search. In production, this would redirect to home page.');
+        }
+    });
+</script>
+{% endblock %}

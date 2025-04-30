@@ -1,0 +1,209 @@
+{% extends 'base.html' %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+<title>{% block title %}About Us - Bookify{% endblock %}</title>
+
+{% block uniqueArea %}
+
+    <!-- ##### Breadcumb Area Start ##### -->
+    <section class="breadcumb-area bg-img d-flex align-items-center justify-content-center" style="background-image: url({% static 'img/bg-img/bg-6.jpg' %});">
+        <div class="bradcumbContent">
+            <h2>About Bookify</h2>
+        </div>
+    </section>
+    <!-- ##### Breadcumb Area End ##### -->
+
+    <!-- ##### About Us Area Start ##### -->
+    <section class="about-us-area section-padding-100-0">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-12 col-lg-6">
+                    <div class="about-text mb-100">
+                        <div class="section-heading">
+                            <div class="line-"></div>
+                            <h2>Our Story</h2>
+                        </div>
+                        <p>Founded in 2015, Bookify began with a simple mission: to make hotel booking transparent, affordable, and hassle-free for travelers worldwide. What started as a small startup has grown into a trusted platform connecting millions of travelers with their perfect accommodations.</p>
+                        <p>Our team of passionate travelers and tech enthusiasts works tirelessly to bring you the best hotel deals and a seamless booking experience. We believe that finding the right place to stay should be the easiest part of planning your journey.</p>
+                        <div class="about-key-text">
+                            <h6><span class="fa fa-check"></span> Over 1 million hotels worldwide</h6>
+                            <h6><span class="fa fa-check"></span> Trusted by 10+ million travelers</h6>
+                            <h6><span class="fa fa-check"></span> Available in 40+ languages</h6>
+                            <h6><span class="fa fa-check"></span> 24/7 customer support</h6>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-lg-6">
+                    <div class="about-thumbnail mb-100">
+                        <img src="{% static 'img/bg-img/15.jpg' %}" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ##### About Us Area End ##### -->
+
+    <!-- ##### Milestones Area Start ##### -->
+    <section class="pool-area section-padding-100 bg-img bg-fixed" style="background-image: url({% static 'img/bg-img/4.png' %});">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-8">
+                    <div class="pool-content text-center wow fadeInUp" data-wow-delay="300ms">
+                        <div class="section-heading text-center white">
+                            <div class="line-"></div>
+                            <h2>Our Milestones</h2>
+                            <p>Over the years, we've achieved significant milestones that have shaped our journey and helped us serve travelers better.</p>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12 col-sm-3">
+                                <div class="pool-feature">
+                                    <i class="fa fa-building-o"></i>
+                                    <p>1M+ Hotels</p>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-3">
+                                <div class="pool-feature">
+                                    <i class="fa fa-globe"></i>
+                                    <p>190+ Countries</p>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-3">
+                                <div class="pool-feature">
+                                    <i class="fa fa-users"></i>
+                                    <p>10M+ Users</p>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-3">
+                                <div class="pool-feature">
+                                    <i class="fa fa-trophy"></i>
+                                    <p>15+ Awards</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ##### Milestones Area End ##### -->
+
+    <!-- ##### Team Area Start ##### -->
+    <section class="rooms-area section-padding-100-0">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-6">
+                    <div class="section-heading text-center">
+                        <div class="line-"></div>
+                        <h2>Meet Our Leadership</h2>
+                        <p>The passionate team behind Bookify who are dedicated to revolutionizing the way you book hotels.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+
+                <!-- Single Team Member -->
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="single-rooms-area wow fadeInUp" data-wow-delay="100ms">
+                        <!-- Thumbnail -->
+                        <div class="bg-thumbnail bg-img" style="background-image: url({% static 'img/bg-img/16.jpg' %});"></div>
+                        <!-- Team Text -->
+                        <div class="rooms-text text-center">
+                            <div class="line"></div>
+                            <h4>Sarah Johnson</h4>
+                            <p>Chief Executive Officer</p>
+                            <div class="team-social">
+                                <a href="#"><i class="fa fa-facebook"></i></a>
+                                <a href="#"><i class="fa fa-twitter"></i></a>
+                                <a href="#"><i class="fa fa-linkedin"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Single Team Member -->
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="single-rooms-area wow fadeInUp" data-wow-delay="300ms">
+                        <!-- Thumbnail -->
+                        <div class="bg-thumbnail bg-img" style="background-image: url({% static 'img/bg-img/17.jpg' %});"></div>
+                        <!-- Team Text -->
+                        <div class="rooms-text text-center">
+                            <div class="line"></div>
+                            <h4>Michael Chen</h4>
+                            <p>Chief Technology Officer</p>
+                            <div class="team-social">
+                                <a href="#"><i class="fa fa-facebook"></i></a>
+                                <a href="#"><i class="fa fa-twitter"></i></a>
+                                <a href="#"><i class="fa fa-linkedin"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Single Team Member -->
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="single-rooms-area wow fadeInUp" data-wow-delay="500ms">
+                        <!-- Thumbnail -->
+                        <div class="bg-thumbnail bg-img" style="background-image: url({% static 'img/bg-img/18.jpg' %});"></div>
+                        <!-- Team Text -->
+                        <div class="rooms-text text-center">
+                            <div class="line"></div>
+                            <h4>Elena Rodriguez</h4>
+                            <p>Chief Marketing Officer</p>
+                            <div class="team-social">
+                                <a href="#"><i class="fa fa-facebook"></i></a>
+                                <a href="#"><i class="fa fa-twitter"></i></a>
+                                <a href="#"><i class="fa fa-linkedin"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <!-- ##### Team Area End ##### -->
+
+    <!-- ##### Values Area Start ##### -->
+    <section class="cta-area d-flex flex-wrap">
+        <!-- Values Thumbnail -->
+        <div class="cta-thumbnail bg-img" style="background-image: url({% static 'img/bg-img/19.jpg' %});"></div>
+
+        <!-- Values Content -->
+        <div class="cta-content">
+            <!-- Section Heading -->
+            <div class="section-heading">
+                <div class="line-"></div>
+                <h2>Our Values</h2>
+            </div>
+            <p>At Bookify, our core values guide everything we do. We're committed to providing exceptional service and building lasting relationships with our customers and hotel partners.</p>
+            
+            <div class="values-list mb-5">
+                <div class="single-value mb-4">
+                    <h5><i class="fa fa-star"></i> Customer First</h5>
+                    <p>We put our customers at the center of everything we do, ensuring their needs and satisfaction are our top priority.</p>
+                </div>
+                <div class="single-value mb-4">
+                    <h5><i class="fa fa-handshake-o"></i> Transparency</h5>
+                    <p>We believe in honest pricing and clear communication, with no hidden fees or surprises.</p>
+                </div>
+                <div class="single-value mb-4">
+                    <h5><i class="fa fa-lightbulb-o"></i> Innovation</h5>
+                    <p>We continuously improve our platform with new features and technologies to enhance the booking experience.</p>
+                </div>
+                <div class="single-value">
+                    <h5><i class="fa fa-globe"></i> Global Perspective</h5>
+                    <p>We embrace diversity and strive to make travel accessible to everyone, everywhere.</p>
+                </div>
+            </div>
+            
+            <!-- Button -->
+            <a href="#" class="btn palatin-btn mt-30">Join Our Team</a>
+        </div>
+    </section>
+    <!-- ##### Values Area End ##### -->
+
+{% endblock %}

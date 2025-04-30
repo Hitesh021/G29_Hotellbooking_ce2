@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <!-- Title -->
+    <title>{% block title %}{% endblock %}</title>
+
+   
+    <!-- Core Stylesheet -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+
+    <!-- Favicon -->
+    <link rel="icon" href="{% static 'img/core-img/favicon.ico' %}">
+
+    <!-- Custom CSS for text size -->
+    <style>
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        
+        .section-heading p {
+            font-size: 18px;
+            line-height: 1.7;
+        }
+        
+        /* This class adds padding to content sections that don't have their own spacing */
+        .need-top-padding {
+            padding-top: 120px;
+        }
+        
+        /* Completely remove any margin/padding from breadcrumb/hero areas */
+        .breadcrumb-area, .welcome-area, .hero-area {
+            margin-top: 0 !important;
+            padding-top: 0 !important;
+        }
+        
+        /* Also remove padding from main elements that contain breadcrumb elements */
+        main:has(.breadcrumb-area), main:has(.welcome-area), main:has(.hero-area) {
+            padding-top: 0 !important;
+            margin-top: 0 !important;
+        }
+        
+        /* Default minimal padding to prevent severe overlap on non-breadcrumb pages */
+        main:not(:has(.breadcrumb-area)):not(:has(.welcome-area)):not(:has(.hero-area)):not(.custom-spacing) {
+            padding-top: 70px;
+        }
+        
+        /* Target breadcrumb container directly */
+        div.breadcrumb-area {
+            margin-top: 0 !important;
+            padding-top: 0 !important;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Preloader -->
+    <div class="preloader d-flex align-items-center justify-content-center">
+        <div class="cssload-container">
+            <div class="cssload-loading"><i></i><i></i><i></i><i></i></div>
+        </div>
+    </div>
+
+   <!-- ##### Header Area Start ##### -->
+<header class="header-area">
+    <!-- Navbar Area -->
+    <div class="palatin-main-menu">
+        <div class="classy-nav-container breakpoint-off">
+            <div class="container">
+                <!-- Menu -->
+                <nav class="classy-navbar justify-content-between" id="palatinNav">
+
+                    <!-- Nav brand -->
+                    <a href="{% url 'home' %}" class="nav-brand"><img src="{% static 'img/core-img/logo1.png' %}" alt=""></a>
+
+                    <!-- Navbar Toggler -->
+                    <div class="classy-navbar-toggler">
+                        <span class="navbarToggler"><span></span><span></span><span></span></span>
+                    </div>
+
+                    <!-- Menu -->
+                    <div class="classy-menu">
+
+                        <!-- Close Button -->
+                        <div class="classycloseIcon">
+                            <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
+                        </div>
+
+                        <!-- Nav Start -->
+                        <div class="classynav">
+                            <ul>
+                                <li><a href="{% url 'home' %}">Home</a></li>
+                                <li><a href="{% url 'about' %}">About Us</a></li>
+                                <li><a href="{% url 'services' %}">Services</a></li>
+                                <li><a href="{% url 'blog' %}">Blog</a></li>
+                                <li><a href="{% url 'contact' %}">Contact</a></li>
+                            </ul>
+
+                            <!-- Button Area -->
+                            <div class="menu-btn navbar-btn">
+                                {% if user.is_authenticated %}
+                                    <!-- Profile Icon -->
+                                    <a href="{% url 'profile' %}" class="btn palatin-btn">
+                                        <i class="fa fa-user"></i> Profile
+                                    </a>
+                                    <!-- Cart Icon -->
+                                    <a href="{% url 'cart' %}" class="btn palatin-btn">
+                                        <i class="fa fa-shopping-cart"></i> Cart
+                                    </a>
+                                    <!-- Logout Button -->
+                                    <a href="{% url 'logout' %}" class="btn palatin-btn">
+                                        <i class="fa fa-sign-out"></i> Logout
+                                    </a>
+                                {% else %}
+                                    <a href="{% url 'login' %}" class="btn palatin-btn mr-2">Sign In</a>
+                                    <a href="{% url 'register' %}" class="btn palatin-btn">Register</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <!-- Nav End -->
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- ##### Header Area End ##### -->
+
+
+
+    <main>
+        {% block uniqueArea %}
+        {% endblock %}
+        
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    
+
+<!-- ##### Footer Area Start ##### -->
+<footer class="footer-area">
+    <div class="container">
+        <div class="row">
+
+            <!-- Footer Widget Area -->
+            <div class="col-12 col-lg-5">
+                <div class="footer-widget-area mt-50">
+                    <a href="{% url 'home' %}" class="d-block mb-5"><img src="{% static 'img/core-img/logo1.png' %}" alt=""></a>
+                    <p>Welcome to Bookify - your premier hotel booking platform. We connect travelers with the perfect accommodations worldwide, offering competitive rates and exceptional service.</p>
+                    <div class="footer-social-info d-flex align-items-center">
+                        <a href="#"><i class="fa fa-facebook fa-2x mr-3" aria-hidden="true"></i></a>
+                        <a href="#"><i class="fa fa-twitter fa-2x mr-3" aria-hidden="true"></i></a>
+                        <a href="#"><i class="fa fa-instagram fa-2x mr-3" aria-hidden="true"></i></a>
+                        <a href="#"><i class="fa fa-linkedin fa-2x mr-3" aria-hidden="true"></i></a>
+                    </div>
+                </div>
+            </div>
+
+<!-- Footer Widget Area -->
+<div class="col-12 col-lg-3">
+    <div class="footer-widget-area mt-50">
+        <h6 class="widget-title mb-5">Quick Links</h6>
+        <ul class="footer-quick-links">
+            <li><a href="{% url 'home' %}" style="color: #f5b917; font-size: 16px; margin-bottom: 8px; display: block;">Home</a></li>
+            <li><a href="{% url 'rooms' %}" style="color: #f5b917; font-size: 16px; margin-bottom: 8px; display: block;">Find Rooms</a></li>
+            <li><a href="{% url 'about' %}" style="color: #f5b917; font-size: 16px; margin-bottom: 8px; display: block;">About Us</a></li>
+            <li><a href="{% url 'blog' %}" style="color: #f5b917; font-size: 16px; margin-bottom: 8px; display: block;">Travel Blog</a></li>
+            <li><a href="{% url 'contact' %}" style="color: #f5b917; font-size: 16px; margin-bottom: 8px; display: block;">Contact</a></li>
+            <li><a href="#" style="color: #f5b917; font-size: 16px; margin-bottom: 8px; display: block;">Privacy Policy</a></li>
+            <li><a href="#" style="color: #f5b917; font-size: 16px; margin-bottom: 8px; display: block;">Terms & Conditions</a></li>
+        </ul>
+    </div>
+</div>
+
+            <!-- Footer Widget Area -->
+            <div class="col-12 col-lg-4">
+                <div class="footer-widget-area mt-50">
+                    <h6 class="widget-title mb-5">Subscribe to our Newsletter</h6>
+                    <p>Stay updated with our latest deals, travel tips, and exclusive offers.</p>
+                    <form action="#" method="post">
+                        <input type="email" name="subscribe-email" id="subscribeemail" placeholder="Your Email">
+                        <button type="submit" class="btn palatin-btn w-100 mt-3">Subscribe</button>
+                    </form>
+                    <div class="mt-4">
+                        <h6 class="widget-title mb-3">Contact Info</h6>
+                        <p><i class="fa fa-map-marker mr-2"></i> 123 Hotel Street, City, Country</p>
+                        <p><i class="fa fa-phone mr-2"></i> +1 234 567 8900</p>
+                        <p><i class="fa fa-envelope mr-2"></i> info@bookify.com</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Copywrite Text -->
+    <div class="container">
+        <div class="copywrite-text">
+            <div class="row">
+                <div class="col-12">
+                    <div class="copywrite-content d-flex justify-content-between align-items-center">
+                        <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="#" target="_blank">Bookify</a>
+<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+<br>Hotel images powered by <a href="https://unsplash.com/" target="_blank">Unsplash</a>
+                        </p>
+                        <!-- <div class="footer-payment-methods">
+                            <img src="{% static 'img/payment-methods.png' %}" alt="Payment Methods"> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- ##### Footer Area End ##### -->
+
+    <!-- ##### All Javascript Script ##### -->
+    <!-- jQuery-2.2.4 js -->
+    <script src="{% static 'js/jquery/jquery-2.2.4.min.js' %}"></script>
+    <!-- Popper js -->
+    <script src="{% static 'js/bootstrap/popper.min.js' %}"></script>
+    <!-- Bootstrap js -->
+    <script src="{% static 'js/bootstrap/bootstrap.min.js' %}"></script>
+    <!-- All Plugins js -->
+    <script src="{% static 'js/plugins/plugins.js' %}"></script>
+    <!-- Active js -->
+    <script src="{% static 'js/active.js' %}"></script>
+</body>
+
+</html>

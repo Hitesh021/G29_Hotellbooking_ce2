@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Payment Canceled{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow text-center">
+                 <div class="card-body p-5">
+                    <div class="mb-4">
+                        <i class="fa fa-times-circle text-danger" style="font-size: 4rem;"></i>
+                    </div>
+                    <h3 class="mb-3">Payment Canceled or Failed</h3>
+                    <p class="mb-4">Your payment could not be processed or was canceled. Please try again or contact support if the problem persists.</p>
+                    <!-- Link back to the payment process view -->
+                    <a href="{% url 'payments:process' %}" class="btn btn-warning me-2">Try Again</a> 
+                    <a href="{% url 'home' %}" class="btn btn-secondary">Go to Homepage</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

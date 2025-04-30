@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Find Hotels - Bookify{% endblock %}
+
+{% block uniqueArea %}
+    <!-- ##### Breadcumb Area Start ##### -->
+    <section class="breadcumb-area bg-img d-flex align-items-center justify-content-center" style="background-image: url({% static 'img/bg-img/bg-7.jpg' %});">
+        <div class="bradcumbContent">
+            <h2>Find Hotels</h2>
+        </div>
+    </section>
+    <!-- ##### Breadcumb Area End ##### -->
+
+    <!-- ##### Book Now Area Start ##### -->
+    <div class="book-now-area">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-10">
+                    <div class="book-now-form">
+                        <form action="{% url 'hotels' %}" method="get">
+                            <!-- Form Group -->
+                            <div class="form-group">
+                                <label for="city">Destination</label>
+                                <input type="text" class="form-control" id="city" name="city" placeholder="City, region, or hotel name" value="{{ city }}">
+                            </div>
+                            
+                            <!-- Form Group -->
+                            <div class="form-group">
+                                <label for="check_in">Check In</label>
+                                <input type="date" class="form-control" id="check_in" name="check_in" value="{{ check_in }}">
+                            </div>
+
+                            <!-- Form Group -->
+                            <div class="form-group">
+                                <label for="check_out">Check Out</label>
+                                <input type="date" class="form-control" id="check_out" name="check_out" value="{{ check_out }}">
+                            </div>
+
+                            <!-- Form Group -->
+                            <div class="form-group">
+                                <label for="adults">Number of people</label>
+                                <select class="form-control" id="adults" name="adults">
+                                    <option value="1" {% if adults == 1 %}selected{% endif %}>1</option>
+                                    <option value="2" {% if adults == 2 %}selected{% endif %}>2</option>
+                                    <option value="3" {% if adults == 3 %}selected{% endif %}>3</option>
+                                    <option value="4" {% if adults == 4 %}selected{% endif %}>4</option>
+                                    <option value="5" {% if adults == 5 %}selected{% endif %}>5</option>
+                                </select>
+                            </div>
+                            <button type="submit">Search Hotels</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ##### Book Now Area End ##### -->
+
+    <!-- ##### Hotels Area Start ##### -->
+    <section class="rooms-area section-padding-30-0" style="margin-top: -40px;">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-6">
+                    <div class="section-heading text-center">
+                        <div class="line-"></div>
+                        <h2>Available Hotels</h2>
+                        <p style="font-size: 17px;">Discover the perfect accommodation for your stay in {{ city }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                {% if error %}
+                    <div class="col-12">
+                        <div class="alert alert-warning">
+                            <p style="font-size: 17px;">{{ error }}</p>
+                        </div>
+                    </div>
+                {% elif hotels_data %}
+                    {% for hotel in hotels_data %}
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <div class="single-rooms-area wow fadeInUp" data-wow-delay="100ms">
+                                <!-- Thumbnail -->
+                                <div class="bg-thumbnail bg-img" style="background-image: url('{% if hotel.hotel.image_url %}{{ hotel.hotel.image_url }}{% else %}{% static 'img/bg-img/10.jpg' %}{% endif %}')"></div>
+                                <!-- Price -->
+                                <p class="price-from">From ${{ hotel.offers.0.price.total }}</p>
+                                <!-- Hotel Info -->
+                                <div class="rooms-text">
+                                    <div class="line"></div>
+                                    <h4>{{ hotel.hotel.name }}</h4>
+                                    <p style="font-size: 17px;">
+                                        {{ hotel.hotel.address.lines.0 }}<br>
+                                        {{ hotel.hotel.address.cityName }}, {{ hotel.hotel.address.countryCode }}
+                                    </p>
+                                    <p style="font-size: 17px;">
+                                        {% if hotel.hotel.rating %}
+                                            <i class="fa fa-star" style="color: gold;"></i> 
+                                            {{ hotel.hotel.rating }} Stars
+                                        {% endif %}
+                                    </p>
+                                </div>
+                                <!-- Book Now -->
+                                <a href="{% url 'hotel_detail' hotel.hotel.hotelId %}?check_in={{ check_in }}&check_out={{ check_out }}&adults={{ adults }}" class="book-room-btn btn palatin-btn">View Details</a>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <div class="col-12">
+                            <div class="alert alert-info">
+                                <p style="font-size: 17px;">No hotels found for your search criteria. Please try a different search.</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="col-12">
+                        <div class="alert alert-info">
+                            <p style="font-size: 17px;">Enter a city name to search for hotels.</p>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+    <!-- ##### Hotels Area End ##### -->
+{% endblock %}

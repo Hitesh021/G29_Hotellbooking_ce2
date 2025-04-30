@@ -1,0 +1,246 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Flight Details - Bookify{% endblock %}
+
+{% block uniqueArea %}
+    <!-- ##### Breadcumb Area Start ##### -->
+    <section class="breadcumb-area bg-img d-flex align-items-center justify-content-center" style="background-image: url(../static/img/bg-img/bg-10.jpg);">
+        <div class="bradcumbContent">
+            <h2>Flight Details</h2>
+        </div>
+    </section>
+    <!-- ##### Breadcumb Area End ##### -->
+
+    <!-- ##### Flight Details Area Start ##### -->
+    <section class="rooms-area section-padding-100">
+        <div class="container">
+            {% if error %}
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="alert alert-warning">
+                        <p style="font-size: 17px;">{{ error }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            
+            <div class="row">
+                <div class="col-12 col-lg-8">
+                    <div class="single-room-area wow fadeInUp" data-wow-delay="100ms">
+                        <div class="room-thumbnail">
+                            <img src="{% static 'img/bg-img/bg-10.jpg' %}" alt="Flight Image" class="img-fluid">
+                        </div>
+                        
+                        <div class="room-content">
+                            <h2>Flight Itinerary</h2>
+                            <div class="line"></div>
+                            
+                            <!-- Outbound Flight -->
+                            <div class="flight-section mb-5">
+                                <h4 class="mb-4">Outbound Flight</h4>
+                                <div class="flight-timeline">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <div class="pe-3">
+                                            <strong>08:00 AM</strong>
+                                            <div>New York (JFK)</div>
+                                        </div>
+                                        <div class="flex-grow-1 px-3">
+                                            <div class="progress" style="height: 2px;">
+                                                <div class="progress-bar bg-primary" role="progressbar" style="width: 100%"></div>
+                                            </div>
+                                            <div class="text-center">3h 20m</div>
+                                        </div>
+                                        <div class="ps-3">
+                                            <strong>11:20 AM</strong>
+                                            <div>Chicago (ORD)</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- For connecting flights -->
+                                    <div class="layover text-center mb-3">
+                                        <small class="text-muted">1h 40m layover in Chicago (ORD)</small>
+                                    </div>
+                                    
+                                    <div class="d-flex align-items-center">
+                                        <div class="pe-3">
+                                            <strong>01:00 PM</strong>
+                                            <div>Chicago (ORD)</div>
+                                        </div>
+                                        <div class="flex-grow-1 px-3">
+                                            <div class="progress" style="height: 2px;">
+                                                <div class="progress-bar bg-primary" role="progressbar" style="width: 100%"></div>
+                                            </div>
+                                            <div class="text-center">4h 30m</div>
+                                        </div>
+                                        <div class="ps-3">
+                                            <strong>05:30 PM</strong>
+                                            <div>Los Angeles (LAX)</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Flight Information -->
+                            <div class="flight-info">
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <h4>Airline Information</h4>
+                                        <p><i class="fa fa-plane"></i> American Airlines</p>
+                                        <p><i class="fa fa-tag"></i> Flight: AA1234</p>
+                                        <p><i class="fa fa-suitcase"></i> Baggage: 1 personal item + 1 carry-on</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h4>Flight Details</h4>
+                                        <p><i class="fa fa-clock-o"></i> Total Duration: 7h 50m</p>
+                                        <p><i class="fa fa-calendar"></i> Date: May 15, 2023</p>
+                                        <p><i class="fa fa-ticket"></i> Class: Economy</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-12 col-lg-4">
+                    <!-- Price Summary Card -->
+                    <div class="hotel-reservation--area mb-100">
+                        <div class="mb-4">
+                            <h2>Price Summary</h2>
+                            <div class="line"></div>
+                        </div>
+                        
+                        <div class="price-summary">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Base Fare:</span>
+                                <strong>$350.00</strong>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Taxes & Fees:</span>
+                                <strong>$76.50</strong>
+                            </div>
+                            <hr>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Total Price:</span>
+                                <strong class="text-primary">$426.50</strong>
+                            </div>
+                            <div class="d-flex justify-content-between mb-4">
+                                <span>Per Passenger:</span>
+                                <strong>$426.50</strong>
+                            </div>
+                            
+                            <a href="{% url 'book_flight' offer_id %}" class="btn palatin-btn w-100 mb-2">Book This Flight</a>
+                            <a href="{% url 'flights' %}" class="btn palatin-btn btn-2 w-100">Back to Search</a>
+                        </div>
+                        
+                        <!-- Additional Info Card -->
+                        <div class="mt-5">
+                            <h2>Important Information</h2>
+                            <div class="line"></div>
+                            
+                            <div class="fare-rules mt-4">
+                                <h4>Fare Rules</h4>
+                                <ul>
+                                    <li>Cancellation charges may apply</li>
+                                    <li>Date changes subject to availability</li>
+                                    <li>Non-refundable fare</li>
+                                </ul>
+                                
+                                <h4 class="mt-4">Baggage Policy</h4>
+                                <p>Checked baggage fees may apply. Please check with the airline for the most current baggage policy.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ##### Flight Details Area End ##### -->
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.flight-timeline {
+    margin: 30px 0;
+}
+
+.flight-timeline .progress {
+    height: 2px;
+    background-color: #ddd;
+}
+
+.flight-timeline .progress-bar {
+    background-color: #0e2737;
+}
+
+.layover {
+    position: relative;
+    padding: 10px 0;
+}
+
+.layover:before {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: #0e2737;
+    border-radius: 50%;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+}
+
+.flight-info {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.flight-info h4 {
+    margin-bottom: 15px;
+    color: #0e2737;
+}
+
+.flight-info i {
+    color: #0e2737;
+    margin-right: 10px;
+    width: 16px;
+}
+
+.price-summary {
+    background-color: #f9f9f9;
+    padding: 25px;
+    border-radius: 5px;
+}
+
+.btn-2 {
+    background-color: transparent !important;
+    color: #0e2737 !important;
+    border: 1px solid #0e2737 !important;
+}
+
+.btn-2:hover {
+    background-color: #0e2737 !important;
+    color: #fff !important;
+}
+
+.fare-rules {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.fare-rules h4 {
+    color: #0e2737;
+    margin-bottom: 15px;
+}
+
+.fare-rules ul {
+    padding-left: 20px;
+}
+
+.fare-rules li {
+    margin-bottom: 8px;
+}
+</style>
+{% endblock %} 

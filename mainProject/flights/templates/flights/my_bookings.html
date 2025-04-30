@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+            <h6 class="section-title text-center text-primary text-uppercase">My Bookings</h6>
+            <h1 class="mb-5">Your <span class="text-primary text-uppercase">Flight</span> Bookings</h1>
+        </div>
+        
+        <div class="row">
+            <div class="col-lg-12 wow fadeInUp" data-wow-delay="0.1s">
+                {% if bookings %}
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Booking Reference</th>
+                                <th>Route</th>
+                                <th>Departure Date</th>
+                                <th>Return Date</th>
+                                <th>Status</th>
+                                <th>Price</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for booking in bookings %}
+                            <tr>
+                                <td>{{ booking.booking_reference|default:"Pending" }}</td>
+                                <td>{{ booking.origin }} to {{ booking.destination }}</td>
+                                <td>{{ booking.departure_date|date:"M d, Y, h:i A" }}</td>
+                                <td>
+                                    {% if booking.return_date %}
+                                    {{ booking.return_date|date:"M d, Y, h:i A" }}
+                                    {% else %}
+                                    One-way
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if booking.payment_status == 'CONFIRMED' %}
+                                    <span class="badge bg-success">Confirmed</span>
+                                    {% elif booking.payment_status == 'PENDING' %}
+                                    <span class="badge bg-warning">Pending</span>
+                                    {% elif booking.payment_status == 'CANCELLED' %}
+                                    <span class="badge bg-danger">Cancelled</span>
+                                    {% else %}
+                                    <span class="badge bg-secondary">{{ booking.payment_status }}</span>
+                                    {% endif %}
+                                </td>
+                                <td>${{ booking.total_price }}</td>
+                                <td>
+                                    <a href="#" class="btn btn-sm btn-primary">Details</a>
+                                    {% if booking.payment_status == 'CONFIRMED' %}
+                                    <a href="#" class="btn btn-sm btn-secondary">E-Ticket</a>
+                                    {% endif %}
+                                    {% if booking.payment_status != 'CANCELLED' %}
+                                    <a href="#" class="btn btn-sm btn-danger">Cancel</a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="card shadow">
+                    <div class="card-body p-5 text-center">
+                        <div class="mb-4">
+                            <i class="fa fa-plane" style="font-size: 4rem;"></i>
+                        </div>
+                        <h3 class="mb-4">No Flight Bookings Found</h3>
+                        <p class="mb-4">You haven't made any flight bookings yet. Start your journey by booking a flight today!</p>
+                        <a href="{% url 'flights' %}" class="btn btn-primary py-3 px-5">Search Flights</a>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- For demonstration purposes, add some sample bookings -->
+        {% if not bookings %}
+        <div class="row mt-5">
+            <div class="col-lg-12">
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">Sample Bookings (For Demonstration)</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Booking Reference</th>
+                                        <th>Route</th>
+                                        <th>Departure Date</th>
+                                        <th>Return Date</th>
+                                        <th>Status</th>
+                                        <th>Price</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>FLT123456</td>
+                                        <td>JFK to LAX</td>
+                                        <td>Apr 20, 2023, 08:00 AM</td>
+                                        <td>Apr 27, 2023, 10:30 AM</td>
+                                        <td><span class="badge bg-success">Confirmed</span></td>
+                                        <td>$426.50</td>
+                                        <td>
+                                            <a href="#" class="btn btn-sm btn-primary">Details</a>
+                                            <a href="#" class="btn btn-sm btn-secondary">E-Ticket</a>
+                                            <a href="#" class="btn btn-sm btn-danger">Cancel</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>FLT789012</td>
+                                        <td>LAX to SFO</td>
+                                        <td>May 15, 2023, 12:30 PM</td>
+                                        <td>One-way</td>
+                                        <td><span class="badge bg-warning">Pending</span></td>
+                                        <td>$125.75</td>
+                                        <td>
+                                            <a href="#" class="btn btn-sm btn-primary">Details</a>
+                                            <a href="#" class="btn btn-sm btn-danger">Cancel</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>FLT345678</td>
+                                        <td>ORD to MIA</td>
+                                        <td>Mar 10, 2023, 06:15 AM</td>
+                                        <td>Mar 17, 2023, 09:45 PM</td>
+                                        <td><span class="badge bg-danger">Cancelled</span></td>
+                                        <td>$358.25</td>
+                                        <td>
+                                            <a href="#" class="btn btn-sm btn-primary">Details</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="alert alert-info mt-3" role="alert">
+                            <i class="fa fa-info-circle me-2"></i>
+                            These are sample bookings for demonstration purposes only. Your actual bookings will appear here once you make a reservation.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %} 

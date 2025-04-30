@@ -1,0 +1,226 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}News & Blog - Bookify{% endblock %}
+
+{% block uniqueArea %}
+    <!-- ##### Breadcumb Area Start ##### -->
+    <section class="breadcumb-area bg-img d-flex align-items-center justify-content-center" style="background-image: url(../static/img/bg-img/bg-7.jpg);">
+        <div class="bradcumbContent">
+            <h2>News & Blog</h2>
+        </div>
+    </section>
+    <!-- ##### Breadcumb Area End ##### -->
+
+    <!-- ##### Blog Area Start ##### -->
+    <div class="blog-area section-padding-100-0">
+        <div class="container">
+            <div class="row">
+                <!-- Blog Posts Column -->
+                <div class="col-12 col-lg-8">
+                    <!-- Single Blog Post Area -->
+                    <div class="single-blog-post mb-100 wow fadeInUp" data-wow-delay="100ms">
+                        <!-- Post Thumb -->
+                        <div class="blog-post-thumb">
+                            <img src="{% static 'img/bg-img/10.jpg' %}" alt="">
+                        </div>
+                        <!-- Post Content -->
+                        <div class="post-content">
+                            <!-- Post Date -->
+                            <div class="post-date">
+                                <span>23</span>
+                                <span>August, 2023</span>
+                            </div>
+                            <!-- Post Title -->
+                            <a href="#" class="post-title">Top 10 Beach Destinations for Your Summer Getaway</a>
+                            <!-- Post Meta -->
+                            <div class="post-meta d-flex justify-content-between">
+                                <a href="#" class="post-author">By Admin</a>
+                                <a href="#" class="post-comments">5 Comments</a>
+                            </div>
+                            <!-- Post Excerpt -->
+                            <p>Discover the world's most stunning beaches with crystal-clear waters, pristine white sands, and breathtaking sunsets. From the Maldives to the Caribbean, we've curated the ultimate list of beach destinations that promise an unforgettable summer vacation.</p>
+                            <a href="#" class="btn palatin-btn">Read More</a>
+                        </div>
+                    </div>
+
+                    <!-- Single Blog Post Area -->
+                    <div class="single-blog-post mb-100 wow fadeInUp" data-wow-delay="300ms">
+                        <!-- Post Thumb -->
+                        <div class="blog-post-thumb">
+                            <img src="{% static 'img/bg-img/11.jpg' %}" alt="">
+                        </div>
+                        <!-- Post Content -->
+                        <div class="post-content">
+                            <!-- Post Date -->
+                            <div class="post-date">
+                                <span>15</span>
+                                <span>August, 2023</span>
+                            </div>
+                            <!-- Post Title -->
+                            <a href="#" class="post-title">Sustainable Travel: How to Reduce Your Carbon Footprint</a>
+                            <!-- Post Meta -->
+                            <div class="post-meta d-flex justify-content-between">
+                                <a href="#" class="post-author">By Jessica</a>
+                                <a href="#" class="post-comments">3 Comments</a>
+                            </div>
+                            <!-- Post Excerpt -->
+                            <p>As climate change concerns grow, more travelers are seeking ways to explore the world responsibly. Learn practical tips for sustainable travel, from choosing eco-friendly accommodations to supporting local communities and minimizing waste during your journeys.</p>
+                            <a href="#" class="btn palatin-btn">Read More</a>
+                        </div>
+                    </div>
+
+                    <!-- Single Blog Post Area -->
+                    <div class="single-blog-post mb-100 wow fadeInUp" data-wow-delay="500ms">
+                        <!-- Post Thumb -->
+                        <div class="blog-post-thumb">
+                            <img src="{% static 'img/bg-img/12.jpg' %}" alt="">
+                        </div>
+                        <!-- Post Content -->
+                        <div class="post-content">
+                            <!-- Post Date -->
+                            <div class="post-date">
+                                <span>08</span>
+                                <span>August, 2023</span>
+                            </div>
+                            <!-- Post Title -->
+                            <a href="#" class="post-title">Hidden Gems: Underrated European Cities to Visit This Year</a>
+                            <!-- Post Meta -->
+                            <div class="post-meta d-flex justify-content-between">
+                                <a href="#" class="post-author">By Michael</a>
+                                <a href="#" class="post-comments">7 Comments</a>
+                            </div>
+                            <!-- Post Excerpt -->
+                            <p>While Paris, Rome, and Barcelona attract millions of tourists annually, Europe is home to countless charming cities that fly under the radar. Explore these lesser-known destinations offering authentic cultural experiences, stunning architecture, and delicious cuisine without the crowds.</p>
+                            <a href="#" class="btn palatin-btn">Read More</a>
+                        </div>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="pagination-area wow fadeInUp" data-wow-delay="400ms">
+                        <nav>
+                            <ul class="pagination">
+                                <li class="page-item active"><a class="page-link" href="#">01.</a></li>
+                                <li class="page-item"><a class="page-link" href="#">02.</a></li>
+                                <li class="page-item"><a class="page-link" href="#">03.</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+
+                <!-- Sidebar Area -->
+                <div class="col-12 col-lg-4">
+                    <div class="blog-sidebar-area">
+                        <!-- Search Form -->
+                        <div class="search-widget-area mb-70 wow fadeInUp" data-wow-delay="100ms">
+                            <form action="#" method="get">
+                                <input type="search" name="search" id="search" placeholder="Search">
+                                <button type="submit"><i class="fa fa-search"></i></button>
+                            </form>
+                        </div>
+
+                        <!-- Recent Posts Widget -->
+                        <div class="widget-area recent-posts-widget mb-70 wow fadeInUp" data-wow-delay="200ms">
+                            <h6 class="widget-title">Recent Posts</h6>
+                            <!-- Single Recent Post -->
+                            <div class="single-recent-post d-flex">
+                                <!-- Thumb -->
+                                <div class="post-thumb">
+                                    <img src="{% static 'img/bg-img/29.jpg' %}" alt="">
+                                </div>
+                                <!-- Content -->
+                                <div class="post-content">
+                                    <a href="#" class="post-title">The Ultimate Guide to Luxury Hotels</a>
+                                    <p class="post-date">August 1, 2023</p>
+                                </div>
+                            </div>
+                            <!-- Single Recent Post -->
+                            <div class="single-recent-post d-flex">
+                                <!-- Thumb -->
+                                <div class="post-thumb">
+                                    <img src="{% static 'img/bg-img/30.jpg' %}" alt="">
+                                </div>
+                                <!-- Content -->
+                                <div class="post-content">
+                                    <a href="#" class="post-title">Family-Friendly Vacation Ideas</a>
+                                    <p class="post-date">July 28, 2023</p>
+                                </div>
+                            </div>
+                            <!-- Single Recent Post -->
+                            <div class="single-recent-post d-flex">
+                                <!-- Thumb -->
+                                <div class="post-thumb">
+                                    <img src="{% static 'img/bg-img/31.jpg' %}" alt="">
+                                </div>
+                                <!-- Content -->
+                                <div class="post-content">
+                                    <a href="#" class="post-title">Travel Photography Tips for Beginners</a>
+                                    <p class="post-date">July 20, 2023</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Categories Widget -->
+                        <div class="widget-area categories-widget mb-70 wow fadeInUp" data-wow-delay="300ms">
+                            <h6 class="widget-title">Categories</h6>
+                            <ul>
+                                <li><a href="#">Travel Tips</a></li>
+                                <li><a href="#">Destinations</a></li>
+                                <li><a href="#">Luxury Hotels</a></li>
+                                <li><a href="#">Budget Travel</a></li>
+                                <li><a href="#">Food & Dining</a></li>
+                                <li><a href="#">Adventure</a></li>
+                            </ul>
+                        </div>
+
+                        <!-- Subscribe Widget -->
+                        <div class="widget-area subscribe-widget mb-70 wow fadeInUp" data-wow-delay="400ms">
+                            <h6 class="widget-title">Subscribe to our newsletter</h6>
+                            <form action="#" method="post">
+                                <input type="email" name="email" id="subscribeemail" placeholder="Your E-mail">
+                                <button type="submit" class="btn palatin-btn w-100">Subscribe</button>
+                            </form>
+                        </div>
+
+                        <!-- Tags Widget -->
+                        <div class="widget-area tags-widget mb-70 wow fadeInUp" data-wow-delay="500ms">
+                            <h6 class="widget-title">Tags</h6>
+                            <div class="tag-cloud">
+                                <a href="#">Travel</a>
+                                <a href="#">Luxury</a>
+                                <a href="#">Beach</a>
+                                <a href="#">Food</a>
+                                <a href="#">Summer</a>
+                                <a href="#">Vacation</a>
+                                <a href="#">Adventure</a>
+                                <a href="#">City Break</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ##### Blog Area End ##### -->
+
+    <!-- ##### Call To Action Area Start ##### -->
+    <section class="call-to-action-area section-padding-100 bg-img bg-fixed" style="background-image: url(../static/img/bg-img/3.jpg);">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="cta-content text-center">
+                        <h2>Subscribe to our newsletter</h2>
+                        <p>Stay updated with the latest travel tips, destination guides, and exclusive offers.</p>
+                        <div class="subscribe-form">
+                            <form action="#" method="post">
+                                <input type="email" name="subscribe-email" id="subscribeEmail" placeholder="Your Email">
+                                <button type="submit" class="btn palatin-btn">Subscribe</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ##### Call To Action Area End ##### -->
+{% endblock %}

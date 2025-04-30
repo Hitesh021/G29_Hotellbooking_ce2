@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+{% load widget_tweaks %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }} - Bookify Admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to bottom right, #f5f7fa, #e2eafc);
+            overflow-x: hidden;
+        }
+
+        .header {
+            width: 100%;
+            background: linear-gradient(90deg, #000, #141414, #1e1e1e, #2d2d2d);
+            color: #ff8c42;
+            padding: 1.2rem 2rem;
+            font-size: 1.8rem;
+            font-weight: bold;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1100;
+            letter-spacing: 1px;
+            animation: slideDown 0.8s ease-out;
+        }
+
+        @keyframes slideDown {
+            0% { transform: translateY(-100%); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        .sidebar {
+            width: 240px;
+            height: 100vh;
+            position: fixed;
+            top: 64px;
+            left: 0;
+            background: #141414;
+            color: #fff;
+            padding-top: 2rem;
+            z-index: 1000;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .sidebar h4 {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-weight: bold;
+            color: #ff8c42;
+        }
+
+        .sidebar a {
+            color: #ffb580;
+            text-decoration: none;
+            display: block;
+            padding: 14px 22px;
+            transition: 0.3s;
+            font-size: 1rem;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            background: #1e1e1e;
+            color: #ff8c42;
+            box-shadow: inset 4px 0 0 #ff8c42;
+        }
+
+        .main-wrapper {
+            margin-left: 240px;
+            padding-top: 64px;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .navbar-custom {
+            background-color: #ffffffee;
+            border-bottom: 1px solid #dee2e6;
+            padding: 0.75rem 1.5rem;
+            backdrop-filter: blur(8px);
+        }
+
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 2rem;
+            animation: fadeIn 1.2s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            font-weight: 500;
+        }
+
+        .form-control {
+            border-radius: 6px;
+        }
+
+        .btn-primary {
+            background-color: #141414;
+            border-color: #141414;
+        }
+
+        .btn-primary:hover {
+            background-color: #000;
+            border-color: #000;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+
+        .help-text {
+            font-size: 0.8rem;
+            color: #6c757d;
+            margin-top: 0.25rem;
+        }
+
+        .form-check-input:checked {
+            background-color: #141414;
+            border-color: #141414;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <div class="header">
+        Bookify — Hotels & Flights
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h4>Admin Panel</h4>
+        <a href="{% url 'adminApp:admin_dashboard' %}"><i class="bi bi-speedometer2 me-2"></i> Dashboard</a>
+        <a href="{% url 'adminApp:reservations' %}"><i class="bi bi-calendar-check me-2"></i> Reservations</a>
+        <a href="{% url 'adminApp:users' %}"><i class="bi bi-people me-2"></i> Users</a>
+        <a href="{% url 'adminApp:HNF' %}" class="active"><i class="bi bi-building me-2"></i> Hotels & Flights</a>
+    </div>
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-light navbar-custom">
+            <div class="container-fluid">
+                <span class="navbar-brand fw-semibold">Welcome, Admin 👋</span>
+                <div class="dropdown ms-auto">
+                    <a class="btn btn-light dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        <i class="bi bi-person-circle"></i> Admin
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li><a class="dropdown-item" href="#">Settings</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="content">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="fw-bold text-primary-emphasis">{{ title }}</h2>
+                <a href="{% url 'adminApp:HNF' %}" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left me-1"></i> Back to List
+                </a>
+            </div>
+
+            <div class="card">
+                <div class="card-body p-4">
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                {% for error in form.non_field_errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        
+                        <!-- Basic Information -->
+                        <h5 class="mb-3">Basic Information</h5>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="{{ form.name.id_for_label }}" class="form-label">Hotel Name *</label>
+                                    {{ form.name.errors }}
+                                    {{ form.name|add_class:"form-control" }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="{{ form.hotel_id.id_for_label }}" class="form-label">Hotel ID *</label>
+                                    {{ form.hotel_id.errors }}
+                                    {{ form.hotel_id|add_class:"form-control" }}
+                                    <div class="help-text">{{ form.hotel_id.help_text }}</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="{{ form.location.id_for_label }}" class="form-label">Location *</label>
+                                    {{ form.location.errors }}
+                                    {{ form.location|add_class:"form-control" }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="{{ form.manager.id_for_label }}" class="form-label">Manager</label>
+                                    {{ form.manager.errors }}
+                                    {{ form.manager|add_class:"form-control" }}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="{{ form.description.id_for_label }}" class="form-label">Description</label>
+                            {{ form.description.errors }}
+                            {{ form.description|add_class:"form-control" }}
+                        </div>
+                        
+                        <!-- Address Information -->
+                        <h5 class="mb-3 mt-4">Address Information</h5>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="{{ form.address_line.id_for_label }}" class="form-label">Address Line</label>
+                                    {{ form.address_line.errors }}
+                                    {{ form.address_line|add_class:"form-control" }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="{{ form.city_name.id_for_label }}" class="form-label">City *</label>
+                                    {{ form.city_name.errors }}
+                                    {{ form.city_name|add_class:"form-control" }}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="{{ form.country_code.id_for_label }}" class="form-label">Country Code *</label>
+                                    {{ form.country_code.errors }}
+                                    {{ form.country_code|add_class:"form-control" }}
+                                    <div class="help-text">3-letter country code (e.g., USA, CAN, GBR)</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="{{ form.postal_code.id_for_label }}" class="form-label">Postal Code</label>
+                                    {{ form.postal_code.errors }}
+                                    {{ form.postal_code|add_class:"form-control" }}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Hotel Details -->
+                        <h5 class="mb-3 mt-4">Hotel Details</h5>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="{{ form.rating.id_for_label }}" class="form-label">Rating</label>
+                                    {{ form.rating.errors }}
+                                    {{ form.rating|add_class:"form-control" }}
+                                    <div class="help-text">{{ form.rating.help_text }}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="{{ form.price_per_night.id_for_label }}" class="form-label">Price per Night *</label>
+                                    {{ form.price_per_night.errors }}
+                                    {{ form.price_per_night|add_class:"form-control" }}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="{{ form.available_rooms.id_for_label }}" class="form-label">Available Rooms *</label>
+                                    {{ form.available_rooms.errors }}
+                                    {{ form.available_rooms|add_class:"form-control" }}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="{{ form.image_url.id_for_label }}" class="form-label">Image URL</label>
+                                    {{ form.image_url.errors }}
+                                    {{ form.image_url|add_class:"form-control" }}
+                                    <div class="help-text">{{ form.image_url.help_text }}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="{{ form.status.id_for_label }}" class="form-label">Status *</label>
+                                    {{ form.status.errors }}
+                                    {{ form.status|add_class:"form-control" }}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4 text-end">
+                            <a href="{% url 'adminApp:HNF' %}" class="btn btn-secondary me-2">Cancel</a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-save me-1"></i> Save Hotel
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div> <!-- End of content -->
+    </div> <!-- End of main-wrapper -->
+
+    <!-- Bootstrap Bundle JS (with Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 

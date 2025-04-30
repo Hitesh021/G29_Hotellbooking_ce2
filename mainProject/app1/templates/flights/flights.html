@@ -1,0 +1,262 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Find Flights - Bookify{% endblock %}
+
+{% block uniqueArea %}
+    <!-- ##### Breadcumb Area Start ##### -->
+    <section class="breadcumb-area bg-img d-flex align-items-center justify-content-center" style="background-image: url(../static/img/bg-img/bg-9.jpg);">
+        <div class="bradcumbContent">
+            <h2>Find Flights</h2>
+        </div>
+    </section>
+    <!-- ##### Breadcumb Area End ##### -->
+
+    <!-- ##### Book Now Area Start ##### -->
+    <div class="book-now-area">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-10">
+                    <div class="book-now-form">
+                        <form action="{% url 'flights:flights' %}" method="get">
+                            <div class="form-group">
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="roundTrip" name="trip_type" value="round" class="custom-control-input" {% if trip_type != 'one-way' %}checked{% endif %}>
+                                    <label class="custom-control-label" for="roundTrip">Round Trip</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="oneWay" name="trip_type" value="one-way" class="custom-control-input" {% if trip_type == 'one-way' %}checked{% endif %}>
+                                    <label class="custom-control-label" for="oneWay">One Way</label>
+                                </div>
+                            </div>
+                            
+                            <!-- Destination Cities in one container -->
+                            <div class="form-group">
+                                <div class="destination-container">
+                                    <div class="destination-part">
+                                        <label for="origin">From</label>
+                                        <input type="text" class="form-control" id="origin" name="origin" placeholder="City or airport code" value="{{ origin }}">
+                                    </div>
+                                    <div class="destination-part">
+                                        <label for="destination">To</label>
+                                        <input type="text" class="form-control" id="destination" name="destination" placeholder="City or airport code" value="{{ destination }}">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Travel Dates in one container -->
+                            <div class="form-group">
+                                <div class="dates-container">
+                                    <div class="date-part">
+                                        <label for="departure_date">Departure Date</label>
+                                        <input type="date" class="form-control" id="departure_date" name="departure_date" value="{{ departure_date }}">
+                                    </div>
+                                    <div class="date-part" id="return_date_container">
+                                        <label for="return_date">Return Date</label>
+                                        <input type="date" class="form-control" id="return_date" name="return_date" value="{{ return_date }}">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Form Group -->
+                            <div class="form-group">
+                                <label for="adults">Passengers</label>
+                                <select class="form-control" id="adults" name="adults">
+                                    <option value="1" {% if adults == 1 %}selected{% endif %}>1</option>
+                                    <option value="2" {% if adults == 2 %}selected{% endif %}>2</option>
+                                    <option value="3" {% if adults == 3 %}selected{% endif %}>3</option>
+                                    <option value="4" {% if adults == 4 %}selected{% endif %}>4</option>
+                                </select>
+                            </div>
+                            
+                            <button type="submit" class="btn palatin-btn">Search Flights</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ##### Book Now Area End ##### -->
+
+    <!-- ##### Flights Area Start ##### -->
+    <section class="rooms-area section-padding-30-0" style="margin-top: -40px;">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-6">
+                    <div class="section-heading text-center">
+                        <div class="line-"></div>
+                        <h2>Available Flights</h2>
+                        {% if origin and destination %}
+                        <p style="font-size: 17px;">Showing flights from {{ origin }} to {{ destination }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                {% if error %}
+                    <div class="col-12">
+                        <div class="alert alert-warning">
+                            <p style="font-size: 17px;">{{ error }}</p>
+                        </div>
+                    </div>
+                {% elif flights_data %}
+                    {% for flight_offer in flights_data %}
+                    <div class="col-12 mb-4">
+                        <div class="single-flight-area wow fadeInUp" data-wow-delay="100ms">
+                            <div class="card shadow-sm">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-9">
+                                            <h5 class="card-title">
+                                                {% with itinerary=flight_offer.itineraries.0 %}
+                                                {% with last_segment=itinerary.segments|last %}
+                                                {{ itinerary.segments.0.departure.iataCode }} to {{ last_segment.arrival.iataCode }}
+                                                {% endwith %}
+                                                {% endwith %}
+                                            </h5>
+                                            
+                                            <!-- Outbound Flight -->
+                                            <div class="mb-3">
+                                                <h6>Outbound Flight</h6>
+                                                {% with itinerary=flight_offer.itineraries.0 %}
+                                                {% for segment in itinerary.segments %}
+                                                <div class="flight-segment mb-2">
+                                                    <div class="d-flex justify-content-between">
+                                                        <div>
+                                                            <strong>{{ segment.departure.iataCode }}</strong> 
+                                                            <small>{{ segment.departure.at|slice:":16"|date:"D, M d, h:i A" }}</small>
+                                                        </div>
+                                                        <div class="text-center">
+                                                            <small>Flight {{ segment.carrierCode }}{{ segment.number }}</small>
+                                                            <div>✈️</div>
+                                                        </div>
+                                                        <div class="text-end">
+                                                            <strong>{{ segment.arrival.iataCode }}</strong>
+                                                            <small>{{ segment.arrival.at|slice:":16"|date:"D, M d, h:i A" }}</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {% if not forloop.last %}
+                                                <div class="text-center my-2">
+                                                    <small>Connection</small>
+                                                </div>
+                                                {% endif %}
+                                                {% endfor %}
+                                                {% endwith %}
+                                            </div>
+                                            
+                                            <!-- Return Flight (if applicable) -->
+                                            {% if flight_offer.itineraries.1 %}
+                                            <div>
+                                                <h6>Return Flight</h6>
+                                                {% with itinerary=flight_offer.itineraries.1 %}
+                                                {% for segment in itinerary.segments %}
+                                                <div class="flight-segment mb-2">
+                                                    <div class="d-flex justify-content-between">
+                                                        <div>
+                                                            <strong>{{ segment.departure.iataCode }}</strong> 
+                                                            <small>{{ segment.departure.at|slice:":16"|date:"D, M d, h:i A" }}</small>
+                                                        </div>
+                                                        <div class="text-center">
+                                                            <small>Flight {{ segment.carrierCode }}{{ segment.number }}</small>
+                                                            <div>✈️</div>
+                                                        </div>
+                                                        <div class="text-end">
+                                                            <strong>{{ segment.arrival.iataCode }}</strong>
+                                                            <small>{{ segment.arrival.at|slice:":16"|date:"D, M d, h:i A" }}</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {% if not forloop.last %}
+                                                <div class="text-center my-2">
+                                                    <small>Connection</small>
+                                                </div>
+                                                {% endif %}
+                                                {% endfor %}
+                                                {% endwith %}
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                        
+                                        <div class="col-md-3 text-end d-flex flex-column justify-content-between">
+                                            <div>
+                                                <h4 class="text-primary mb-1">${{ flight_offer.price.total }}</h4>
+                                                <p class="text-muted mb-0">per person</p>
+                                            </div>
+                                            <a href="{% url 'flights:flight_detail' flight_offer.id %}" class="btn palatin-btn mt-3">View Details</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% elif origin and destination %}
+                    <div class="col-12">
+                        <div class="alert alert-info">
+                            <p style="font-size: 17px;">No flights found for this route and dates. Please try different dates or destinations.</p>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="col-12">
+                        <div class="alert alert-info">
+                            <p style="font-size: 17px;">Enter origin and destination to search for flights.</p>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+    <!-- ##### Flights Area End ##### -->
+
+    <!-- Add JavaScript to toggle return date field visibility -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get the radio buttons and return date container
+            const roundTrip = document.getElementById('roundTrip');
+            const oneWay = document.getElementById('oneWay');
+            const returnDateContainer = document.getElementById('return_date_container');
+            
+            // Function to toggle return date visibility
+            function toggleReturnDate() {
+                if (oneWay.checked) {
+                    returnDateContainer.style.display = 'none';
+                } else {
+                    returnDateContainer.style.display = 'block';
+                }
+            }
+            
+            // Add event listeners
+            roundTrip.addEventListener('change', toggleReturnDate);
+            oneWay.addEventListener('change', toggleReturnDate);
+            
+            // Initial check
+            toggleReturnDate();
+        });
+    </script>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+/* Simple container styles for the flight form */
+.destination-container, .dates-container {
+    display: flex;
+    gap: 20px;
+}
+
+.destination-part, .date-part {
+    flex: 1;
+}
+
+.single-flight-area {
+    margin-bottom: 30px;
+}
+
+.flight-segment {
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+</style>
+{% endblock %} 

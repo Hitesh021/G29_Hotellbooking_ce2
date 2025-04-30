@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+
+{% block title %}Pay with Braintree{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Complete Your Payment</h4>
+                </div>
+                <div class="card-body p-4">
+                    <h5 class="card-title mb-3">Payable Amount: ${{ amount }}</h5>
+                    
+                    <div id="payment-error" class="alert alert-danger" style="display: none;">
+                        Error loading payment form. Please refresh the page or try again later.
+                    </div>
+                    
+                    {% if client_token %}
+                        <form id="payment-form" method="post" action="{% url 'payments:process' %}">
+                            {% csrf_token %}
+                            <div id="bt-dropin"></div>
+                            <input id="nonce" name="payment_method_nonce" type="hidden" />
+                            <button type="submit" id="submit-button" class="btn btn-primary w-100 mt-3">Pay Now</button>
+                        </form>
+                    {% else %}
+                        <div class="alert alert-danger" role="alert">
+                            Could not connect to the payment gateway. Please refresh the page or contact support.
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Load multiple Braintree script versions to ensure compatibility -->
+<script src="https://js.braintreegateway.com/web/3.88.4/js/client.min.js"></script>
+<script src="https://js.braintreegateway.com/web/3.88.4/js/hosted-fields.min.js"></script>
+<script src="https://js.braintreegateway.com/web/dropin/1.33.1/js/dropin.min.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var form = document.getElementById('payment-form');
+        var token = "{{ client_token|escapejs }}";
+        var submitButton = document.getElementById('submit-button');
+        var errorElement = document.getElementById('payment-error');
+        
+        // Check if token is valid (not empty and properly formatted)
+        if (!token || token.trim() === '') {
+            console.error("Invalid client token");
+            errorElement.style.display = 'block';
+            submitButton.disabled = true;
+            return;
+        }
+        
+        // Initialize Braintree Drop-in UI
+        try {
+            braintree.dropin.create({
+                authorization: token,
+                container: '#bt-dropin',
+                // Simple configuration for better compatibility
+                paymentOptionPriority: ['card', 'paypal'],
+                card: {
+                    overrides: {
+                        fields: {
+                            number: {
+                                placeholder: 'Card Number'
+                            },
+                            cvv: {
+                                placeholder: 'CVV'
+                            },
+                            expirationDate: {
+                                placeholder: 'MM/YY'
+                            }
+                        }
+                    }
+                }
+            }, function(createErr, instance) {
+                if (createErr) {
+                    console.error("Drop-in creation error:", createErr);
+                    errorElement.style.display = 'block';
+                    submitButton.disabled = true;
+                    return;
+                }
+                
+                console.log("Braintree Drop-in UI created successfully");
+                submitButton.disabled = false;
+                
+                form.addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    submitButton.disabled = true;
+                    submitButton.textContent = 'Processing...';
+                    
+                    instance.requestPaymentMethod(function(requestErr, payload) {
+                        if (requestErr) {
+                            console.error("Payment method request error:", requestErr);
+                            submitButton.disabled = false;
+                            submitButton.textContent = 'Pay Now';
+                            alert('There was an error processing your payment. Please try again.');
+                            return;
+                        }
+                        
+                        // Add payment method nonce to the form
+                        document.getElementById('nonce').value = payload.nonce;
+                        
+                        // Submit the form
+                        form.submit();
+                    });
+                });
+            });
+        } catch (e) {
+            console.error("Braintree initialization error:", e);
+            errorElement.style.display = 'block';
+            submitButton.disabled = true;
+        }
+    });
+</script>
+{% endblock %} 

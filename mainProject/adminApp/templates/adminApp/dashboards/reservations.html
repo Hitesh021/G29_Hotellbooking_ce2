@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Bookify — Reservations</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --orange: #cb8670;
+      --black: #141414;
+      --dark-grey: #363636;
+      --mid-grey: #7d7d7d;
+      --sidebar-bg: #1a1a1a;
+      --text-main: #e57b42;
+    }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #f5f7fa, #e2eafc);
+      overflow-x: hidden;
+    }
+
+    .header {
+      width: 100%;
+      background: linear-gradient(90deg, var(--black), #1c1c1c, var(--dark-grey));
+      color: var(--text-main);
+      padding: 1.2rem 2rem;
+      font-size: 1.8rem;
+      font-weight: bold;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1100;
+      letter-spacing: 1px;
+      animation: slideDown 1s ease-out;
+    }
+
+    @keyframes slideDown {
+      0% { transform: translateY(-100%); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
+    .sidebar {
+      width: 240px;
+      height: 100vh;
+      position: fixed;
+      top: 64px;
+      left: 0;
+      background: var(--black);
+      padding-top: 2rem;
+      z-index: 1000;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.3);
+    }
+
+    .sidebar h4 {
+      text-align: center;
+      margin-bottom: 2rem;
+      color: var(--text-main);
+      font-weight: bold;
+    }
+
+    .sidebar a {
+      color: var(--text-main);
+      text-decoration: none;
+      display: block;
+      padding: 14px 22px;
+      transition: 0.3s;
+      font-size: 1rem;
+    }
+
+    .sidebar a:hover,
+    .sidebar a.active {
+      background: #222;
+      color: white;
+      box-shadow: inset 3px 0 0 var(--orange);
+    }
+
+    .main-wrapper {
+      margin-left: 240px;
+      padding-top: 64px;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    .navbar-custom {
+      background-color: #ffffffee;
+      border-bottom: 1px solid #dee2e6;
+      padding: 0.75rem 1.5rem;
+      backdrop-filter: blur(8px);
+    }
+
+    .content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 2rem;
+      animation: fadeIn 1.2s ease-in-out;
+      background-color: #eef3fb;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .table thead {
+      background-color: var(--dark-grey);
+      color: white;
+    }
+
+    .table tbody tr:hover {
+      background-color: #f0f0f0;
+    }
+
+    .btn-primary {
+      background-color: var(--orange);
+      border: none;
+    }
+
+    .btn-primary:hover {
+      background-color: #b36f5e;
+    }
+
+    .table td, .table th {
+      vertical-align: middle;
+    }
+
+    h2, .lead {
+      color: var(--dark-grey);
+    }
+
+    .card {
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+      background-color: white;
+      padding: 2rem;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        top: auto;
+      }
+
+      .main-wrapper {
+        margin-left: 0;
+      }
+
+      .header {
+        position: relative;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="header">
+    Bookify — Admin Dashboard
+  </div>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h4>Admin Panel</h4>
+    <a href="{% url 'adminApp:admin_dashboard' %}"><i class="bi bi-speedometer2 me-2"></i> Dashboard</a>
+    <a href="{% url 'adminApp:reservations' %}" class="active"><i class="bi bi-calendar-check me-2"></i> Reservations</a>
+    <a href="{% url 'adminApp:users' %}"><i class="bi bi-people me-2"></i> Users</a>
+    <a href="{% url 'adminApp:HNF' %}"><i class="bi bi-building me-2"></i> Hotels and Flights</a>
+  </div>
+
+  <!-- Main Wrapper -->
+  <div class="main-wrapper">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light navbar-custom">
+      <div class="container-fluid">
+        <span class="navbar-brand fw-semibold">Welcome, Admin 👋</span>
+        <div class="dropdown ms-auto">
+          <a class="btn btn-light dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+            <i class="bi bi-person-circle"></i> Admin
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="#">Profile</a></li>
+            <li><a class="dropdown-item" href="#">Settings</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Logout</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="content">
+      <div class="card">
+        <h2 class="mb-4 fw-bold">Reservations</h2>
+        <p class="lead mb-4">Manage and review all hotel bookings made by customers.</p>
+
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover text-center align-middle">
+            <thead class="table-dark text-uppercase">
+              <tr style="background-color: var(--dark-grey); color: white;">
+                <th style="letter-spacing: 0.5px;"><i class="bi bi-hash"></i> Booking ID</th>
+                <th style="letter-spacing: 0.5px;"><i class="bi bi-person-fill"></i> Customer</th>
+                <th style="letter-spacing: 0.5px;"><i class="bi bi-building"></i> Hotel</th>
+                <th style="letter-spacing: 0.5px;"><i class="bi bi-calendar-event"></i> Check-In</th>
+                <th style="letter-spacing: 0.5px;"><i class="bi bi-calendar2-event"></i> Check-Out</th>
+                <th style="letter-spacing: 0.5px;"><i class="bi bi-gear"></i> Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for reservation in reservations %}
+                <tr>
+                  <td>{{ reservation.booking_id }}</td>
+                  <td>{{ reservation.customer_name }}</td>
+                  <td>{{ reservation.hotel_name }}</td>
+                  <td>{{ reservation.check_in_date }}</td>
+                  <td>{{ reservation.check_out_date }}</td>
+                  <td>
+                    <a href="{% url 'adminApp:reservation_detail' reservation.booking_id %}" class="btn btn-primary btn-sm">
+                      <i class="bi bi-eye"></i> View
+                    </a>
+                  </td>
+                </tr>
+              {% empty %}
+                <tr>
+                  <td colspan="6" class="text-muted">No reservations found.</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

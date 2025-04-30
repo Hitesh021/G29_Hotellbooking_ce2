@@ -1,0 +1,220 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Hotel Details - Bookify{% endblock %}
+
+{% block uniqueArea %}
+    <!-- ##### Breadcumb Area Start ##### -->
+    <section class="breadcumb-area bg-img d-flex align-items-center justify-content-center" style="background-image: url({% static 'img/bg-img/bg-7.jpg' %});">
+        <div class="bradcumbContent">
+            <h2>Hotel Details</h2>
+        </div>
+    </section>
+    <!-- ##### Breadcumb Area End ##### -->
+
+    <!-- ##### Hotel Details Area Start ##### -->
+    <section class="about-us-area section-padding-100-0">
+        <div class="container">
+            {% if error %}
+                <div class="row">
+                    <div class="col-12">
+                        <div class="alert alert-warning">
+                            <p style="font-size: 17px;">{{ error }}</p>
+                            <p style="font-size: 17px;">This may be due to one of the following reasons:</p>
+                            <ul style="font-size: 17px;">
+                                <li>The hotel has no availability for the selected dates</li>
+                                <li>The dates are too far in the future for the test environment</li>
+                                <li>The hotel ID "{{ hotel_id }}" may not be valid in the current system</li>
+                            </ul>
+                            <p style="font-size: 17px;">
+                                <a href="{% url 'hotels' %}?city=LON&check_in={{ check_in }}&check_out={{ check_out }}&adults={{ adults }}" class="btn btn-secondary">
+                                    <i class="fa fa-arrow-left"></i> Back to Hotel Search
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% elif hotel_data %}
+                <div class="row align-items-center">
+                    <!-- Hotel Details Content -->
+                    <div class="col-12 col-lg-6">
+                        <div class="about-text mb-100">
+                            <div class="section-heading">
+                                <div class="line-"></div>
+                                <h2>{{ hotel_data.hotel.name }}</h2>
+                                <p style="font-size: 17px;">
+                                    {% if hotel_data.hotel.rating %}
+                                        <i class="fa fa-star" style="color: gold;"></i> 
+                                        {{ hotel_data.hotel.rating }} Star Hotel
+                                    {% endif %}
+                                </p>
+                            </div>
+                            <p style="font-size: 17px;">
+                                {{ hotel_data.hotel.address.lines.0 }}<br>
+                                {{ hotel_data.hotel.address.cityName }}, {{ hotel_data.hotel.address.countryCode }}
+                            </p>
+                            
+                            <div class="hotel-features mt-5">
+                                <h4>Hotel Amenities</h4>
+                                <div class="row">
+                                    {% if hotel_data.hotel.amenities %}
+                                        {% for amenity in hotel_data.hotel.amenities %}
+                                            <div class="col-6">
+                                                <p style="font-size: 17px;"><i class="fa fa-check-circle"></i> {{ amenity }}</p>
+                                            </div>
+                                        {% endfor %}
+                                    {% else %}
+                                        <div class="col-12">
+                                            <p style="font-size: 17px;">Amenities information not available</p>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <!-- Hotel Services -->
+                            {% if hotel_data.hotel.description %}
+                            <div class="hotel-description mt-4">
+                                <h4>About This Hotel</h4>
+                                <p style="font-size: 17px;">{{ hotel_data.hotel.description.text }}</p>
+                            </div>
+                            {% endif %}
+
+                            <!-- Hotel Contact -->
+                            {% if hotel_data.hotel.contact %}
+                            <div class="hotel-contact mt-4">
+                                <h4>Contact Information</h4>
+                                <p style="font-size: 17px;">
+                                    {% if hotel_data.hotel.contact.phone %}
+                                    <i class="fa fa-phone"></i> {{ hotel_data.hotel.contact.phone }}<br>
+                                    {% endif %}
+                                    {% if hotel_data.hotel.contact.email %}
+                                    <i class="fa fa-envelope"></i> {{ hotel_data.hotel.contact.email }}<br>
+                                    {% endif %}
+                                    {% if hotel_data.hotel.contact.fax %}
+                                    <i class="fa fa-fax"></i> {{ hotel_data.hotel.contact.fax }}
+                                    {% endif %}
+                                </p>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Hotel Thumbnail -->
+                    <div class="col-12 col-lg-6">
+                        <div class="about-thumbnail mb-100">
+                            <img src="{% if hotel_data.hotel.image_url %}{{ hotel_data.hotel.image_url }}{% else %}{% static 'img/bg-img/11.jpg' %}{% endif %}" alt="{{ hotel_data.hotel.name }}" style="width: 100%; height: auto; max-height: 400px; object-fit: cover;">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Available Offers -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="section-heading">
+                            <div class="line-"></div>
+                            <h2>Available Offers</h2>
+                            <p style="font-size: 17px;">Select from our available room options for your stay from {{ check_in }} to {{ check_out }}</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    {% for offer in hotel_data.offers %}
+                        <div class="col-12 col-lg-6 mb-5">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">{{ offer.room.typeEstimated.category }} Room</h4>
+                                    
+                                    <!-- Room Details -->
+                                    <div class="room-details mb-3">
+                                        <p style="font-size: 17px;" class="card-text">
+                                            <strong>Bed Type:</strong> 
+                                            {% if offer.room.typeEstimated.bedType %}
+                                                {{ offer.room.typeEstimated.bedType }}
+                                            {% else %}
+                                                Standard
+                                            {% endif %}
+                                        </p>
+                                        
+                                        {% if offer.room.description %}
+                                        <p style="font-size: 17px;" class="card-text">
+                                            <strong>Description:</strong> {{ offer.room.description.text }}
+                                        </p>
+                                        {% endif %}
+                                        
+                                        <p style="font-size: 17px;" class="card-text">
+                                            <strong>Guests:</strong> {{ adults }} Adult(s)
+                                        </p>
+                                        
+                                        {% if offer.room.typeEstimated.beds %}
+                                        <p style="font-size: 17px;" class="card-text">
+                                            <strong>Beds:</strong> {{ offer.room.typeEstimated.beds }} {{ offer.room.typeEstimated.bedType }} bed(s)
+                                        </p>
+                                        {% endif %}
+                                    </div>
+                                    
+                                    <!-- Room Amenities -->
+                                    {% if offer.room.amenities %}
+                                    <div class="room-amenities mb-3">
+                                        <p style="font-size: 17px;"><strong>Room Amenities:</strong></p>
+                                        <div class="row">
+                                            {% for amenity in offer.room.amenities %}
+                                                <div class="col-6">
+                                                    <p style="font-size: 15px;"><i class="fa fa-check"></i> {{ amenity }}</p>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                    
+                                    <!-- Price Information -->
+                                    <div class="price-info mb-3">
+                                        <p style="font-size: 17px;" class="card-text">
+                                            <strong>Price:</strong> ${{ offer.price.total }} total
+                                            {% if offer.price.base %}
+                                                <br><small>${{ offer.price.base }} base rate</small>
+                                            {% endif %}
+                                            {% if offer.price.taxes %}
+                                                <br><small>+ ${{ offer.price.taxes.0.amount }} {{ offer.price.taxes.0.code }} tax</small>
+                                            {% endif %}
+                                        </p>
+                                    </div>
+                                    
+                                    <!-- Cancellation Policy -->
+                                    <div class="cancellation-policy mb-3">
+                                        <p style="font-size: 17px;" class="card-text">
+                                            <strong>Cancellation:</strong> 
+                                            {% if offer.policies.cancellations %}
+                                                {% for policy in offer.policies.cancellations %}
+                                                    {% if policy.amount %}
+                                                        ${{ policy.amount }} fee if cancelled after {{ policy.deadline }}
+                                                    {% else %}
+                                                        Free cancellation until {{ policy.deadline }}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% else %}
+                                                Contact hotel for cancellation policy
+                                            {% endif %}
+                                        </p>
+                                    </div>
+                                    
+                                    <!-- Replace the dual buttons with a single centered Add to Cart button -->
+                                    <div class="text-center">
+                                        <a href="{% url 'add_to_cart' %}?offer_id={{ offer.id }}&hotel_name={{ hotel_data.hotel.name|urlencode }}&check_in={{ check_in }}&check_out={{ check_out }}&adults={{ adults }}&price={{ offer.price.total }}&room_description={{ offer.room.typeEstimated.category }} Room&hotel_id={{ hotel_id }}" class="btn palatin-btn btn-block w-75">Add to Cart</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <div class="col-12">
+                            <div class="alert alert-info">
+                                <p style="font-size: 17px;">No offers available for this hotel during the selected dates.</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </section>
+    <!-- ##### Hotel Details Area End ##### -->
+{% endblock %}

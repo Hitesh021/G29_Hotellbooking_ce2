@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+            <h6 class="section-title text-center text-primary text-uppercase">Booking Confirmed</h6>
+            <h1 class="mb-5">Your <span class="text-primary text-uppercase">Flight</span> is Booked!</h1>
+        </div>
+        
+        <div class="row">
+            <div class="col-lg-8 mx-auto wow fadeInUp" data-wow-delay="0.1s">
+                <div class="card shadow">
+                    <div class="card-body text-center p-5">
+                        <div class="mb-4">
+                            <i class="fa fa-check-circle text-success" style="font-size: 6rem;"></i>
+                        </div>
+                        <h2 class="mb-4">Thank You For Your Booking</h2>
+                        <p class="mb-4">Your flight has been booked successfully. A confirmation email has been sent to your registered email address.</p>
+                        
+                        <div class="card bg-light mb-4">
+                            <div class="card-body">
+                                <h5 class="mb-3">Booking Details</h5>
+                                <div class="row mb-2">
+                                    <div class="col-6 text-start">Booking Reference:</div>
+                                    <div class="col-6 text-end"><strong>ABC123456</strong></div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-6 text-start">Route:</div>
+                                    <div class="col-6 text-end"><strong>JFK to LAX</strong></div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-6 text-start">Departure:</div>
+                                    <div class="col-6 text-end"><strong>Apr 20, 2023, 08:00 AM</strong></div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-6 text-start">Passenger:</div>
+                                    <div class="col-6 text-end"><strong>John Doe</strong></div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-6 text-start">Total Amount:</div>
+                                    <div class="col-6 text-end"><strong>$426.50</strong></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="alert alert-info" role="alert">
+                            <i class="fa fa-info-circle me-2"></i>
+                            Please check in online 24 hours before your flight or arrive at the airport at least 2 hours before departure.
+                        </div>
+                        
+                        <div class="mt-4">
+                            <a href="{% url 'my_flight_bookings' %}" class="btn btn-primary py-3 px-5">View My Bookings</a>
+                            <a href="{% url 'home' %}" class="btn btn-outline-secondary py-3 px-5 ms-2">Return to Home</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bookify — Hotels & Flights</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to bottom right, #f5f7fa, #e2eafc);
+            overflow-x: hidden;
+        }
+
+        .header {
+            width: 100%;
+            background: linear-gradient(90deg, #000, #141414, #1e1e1e, #2d2d2d);
+            color: #ff8c42;
+            padding: 1.2rem 2rem;
+            font-size: 1.8rem;
+            font-weight: bold;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1100;
+            letter-spacing: 1px;
+            animation: slideDown 0.8s ease-out;
+        }
+
+        @keyframes slideDown {
+            0% { transform: translateY(-100%); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        .sidebar {
+            width: 240px;
+            height: 100vh;
+            position: fixed;
+            top: 64px;
+            left: 0;
+            background: #141414;
+            color: #fff;
+            padding-top: 2rem;
+            z-index: 1000;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .sidebar h4 {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-weight: bold;
+            color: #ff8c42;
+        }
+
+        .sidebar a {
+            color: #ffb580;
+            text-decoration: none;
+            display: block;
+            padding: 14px 22px;
+            transition: 0.3s;
+            font-size: 1rem;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            background: #1e1e1e;
+            color: #ff8c42;
+            box-shadow: inset 4px 0 0 #ff8c42;
+        }
+
+        .main-wrapper {
+            margin-left: 240px;
+            padding-top: 64px;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .navbar-custom {
+            background-color: #ffffffee;
+            border-bottom: 1px solid #dee2e6;
+            padding: 0.75rem 1.5rem;
+            backdrop-filter: blur(8px);
+        }
+
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 2rem;
+            animation: fadeIn 1.2s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .badge-hotel {
+            font-size: 0.75rem;
+            margin-left: 6px;
+            background-color: #fbd38d;
+            color: #8b4513;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+                top: auto;
+            }
+            .main-wrapper {
+                margin-left: 0;
+            }
+            .header {
+                position: relative;
+            }
+        }
+
+        .table thead {
+            background-color: #363636;
+            color: white;
+        }
+
+        .table tbody tr:hover {
+            background-color: #f0f0f0;
+        }
+
+        .table th {
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            vertical-align: middle;
+        }
+
+        .nav-tabs .nav-link {
+            color: #141414;
+            font-weight: 500;
+        }
+
+        .nav-tabs .nav-link.active {
+            color: #ff8c42;
+            font-weight: 600;
+            border-bottom: 2px solid #ff8c42;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <div class="header">
+        Bookify — Hotels & Flights
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h4>Admin Panel</h4>
+        <a href="{% url 'adminApp:admin_dashboard' %}"><i class="bi bi-speedometer2 me-2"></i> Dashboard</a>
+        <a href="{% url 'adminApp:reservations' %}"><i class="bi bi-calendar-check me-2"></i> Reservations</a>
+        <a href="{% url 'adminApp:users' %}"><i class="bi bi-people me-2"></i> Users</a>
+        <a href="{% url 'adminApp:HNF' %}" class="active"><i class="bi bi-building me-2"></i> Hotels & Flights</a>
+    </div>
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-light navbar-custom">
+            <div class="container-fluid">
+                <span class="navbar-brand fw-semibold">Welcome, Admin 👋</span>
+                <div class="dropdown ms-auto">
+                    <a class="btn btn-light dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        <i class="bi bi-person-circle"></i> Admin
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li><a class="dropdown-item" href="#">Settings</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="content">
+            <h2 class="mb-4 fw-bold text-primary-emphasis">Manage Hotels & Flights</h2>
+            <p class="lead">Here's a quick overview of your hotels and flights 📊</p>
+
+            <!-- Tabs for Hotels and Flights -->
+            <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link active" id="hotels-tab" data-bs-toggle="tab" href="#hotels" role="tab" aria-controls="hotels" aria-selected="true">
+                        <i class="bi bi-building me-2"></i>Hotels
+                    </a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="flights-tab" data-bs-toggle="tab" href="#flights" role="tab" aria-controls="flights" aria-selected="false">
+                        <i class="bi bi-airplane me-2"></i>Flights
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Tab Content -->
+            <div class="tab-content" id="myTabContent">
+                <!-- Hotels Tab -->
+                <div class="tab-pane fade show active" id="hotels" role="tabpanel" aria-labelledby="hotels-tab">
+                    <!-- Hotel List -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-primary text-white fw-semibold">
+                            Hotel List
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover text-center align-middle mb-0">
+                                    <thead style="background-color: #363636; color: white;">
+                                    <tr>
+                                        <th><i class="bi bi-building me-1"></i>Hotel Name</th>
+                                        <th><i class="bi bi-geo-alt-fill me-1"></i>Location</th>
+                                        <th><i class="bi bi-toggle-on me-1"></i>Status</th>
+                                        <th><i class="bi bi-door-open-fill me-1"></i>Rooms Available</th>
+                                        <th><i class="bi bi-currency-dollar me-1"></i>Price/Night</th>
+                                        <th><i class="bi bi-tools me-1"></i>Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for hotel in hotels %}
+                                        <tr>
+                                            <td>{{ hotel.name }}</td>
+                                            <td>{{ hotel.city_name }}, {{ hotel.country_code }}</td>
+                                            <td>
+                                                {% if hotel.status == 'active' %}
+                                                    <span class="badge bg-success">Active</span>
+                                                {% elif hotel.status == 'pending' %}
+                                                    <span class="badge bg-warning text-dark">Pending</span>
+                                                {% else %}
+                                                    <span class="badge bg-danger">Inactive</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>{{ hotel.available_rooms }}</td>
+                                            <td>${{ hotel.price_per_night }}</td>
+                                            <td>
+                                                <a href="{% url 'adminApp:hotel_edit' hotel.id %}" class="btn btn-sm btn-info me-1">
+                                                    <i class="bi bi-pencil"></i> Edit
+                                                </a>
+                                                <a href="{% url 'adminApp:hotel_delete' hotel.id %}" class="btn btn-sm btn-danger">
+                                                    <i class="bi bi-trash"></i> Delete
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% empty %}
+                                        <tr>
+                                            <td colspan="6" class="text-center py-3">No hotels found. Add your first hotel below.</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Add New Hotel Button -->
+                    <div class="p-3 text-start">
+                        <a href="{% url 'adminApp:hotel_create' %}" class="btn" style="background-color: #141414; border-color: #141414; color: #fff;">
+                            <i class="bi bi-plus-circle me-1"></i> Add New Hotel
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Flights Tab -->
+                <div class="tab-pane fade" id="flights" role="tabpanel" aria-labelledby="flights-tab">
+                    <!-- Flight List -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-primary text-white fw-semibold">
+                            Flight List
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover text-center align-middle mb-0">
+                                    <thead style="background-color: #363636; color: white;">
+                                    <tr>
+                                        <th><i class="bi bi-airplane me-1"></i>Flight</th>
+                                        <th><i class="bi bi-geo-alt-fill me-1"></i>Route</th>
+                                        <th><i class="bi bi-clock me-1"></i>Departure</th>
+                                        <th><i class="bi bi-clock-history me-1"></i>Arrival</th>
+                                        <th><i class="bi bi-toggle-on me-1"></i>Status</th>
+                                        <th><i class="bi bi-currency-dollar me-1"></i>Price</th>
+                                        <th><i class="bi bi-tools me-1"></i>Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for flight in flights %}
+                                        <tr>
+                                            <td>{{ flight.airline }} {{ flight.flight_number }}</td>
+                                            <td>{{ flight.origin_iata }} → {{ flight.destination_iata }}</td>
+                                            <td>{{ flight.departure_time|date:"M d, Y H:i" }}</td>
+                                            <td>{{ flight.arrival_time|date:"M d, Y H:i" }}</td>
+                                            <td>
+                                                {% if flight.status == 'scheduled' %}
+                                                    <span class="badge bg-success">Scheduled</span>
+                                                {% elif flight.status == 'delayed' %}
+                                                    <span class="badge bg-warning text-dark">Delayed</span>
+                                                {% else %}
+                                                    <span class="badge bg-danger">Cancelled</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>${{ flight.total_price }}</td>
+                                            <td>
+                                                <a href="{% url 'adminApp:flight_edit' flight.id %}" class="btn btn-sm btn-info me-1">
+                                                    <i class="bi bi-pencil"></i> Edit
+                                                </a>
+                                                <a href="{% url 'adminApp:flight_delete' flight.id %}" class="btn btn-sm btn-danger">
+                                                    <i class="bi bi-trash"></i> Delete
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% empty %}
+                                        <tr>
+                                            <td colspan="7" class="text-center py-3">No flights found. Add your first flight below.</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Add New Flight Button -->
+                    <div class="p-3 text-start">
+                        <a href="{% url 'adminApp:flight_create' %}" class="btn" style="background-color: #141414; border-color: #141414; color: #fff;">
+                            <i class="bi bi-plus-circle me-1"></i> Add New Flight
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- End of content -->
+    </div> <!-- End of main-wrapper -->
+
+    <!-- Bootstrap Bundle JS (with Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

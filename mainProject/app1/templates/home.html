@@ -1,0 +1,622 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Bookify - Find and Book Hotels Worldwide{% endblock %}
+
+{% block uniqueArea %}
+
+    <!-- ##### Hero Area Start ##### -->
+    <section class="hero-area" style="position: relative;">
+        <div class="hero-slides owl-carousel">
+
+            <!-- Single Hero Slide -->
+            <div class="single-hero-slide d-flex align-items-center justify-content-center">
+                <!-- Slide Img -->
+                <div class="slide-img bg-img" style="background-image: url(../static/img/bg-img/bg-1.jpg);"></div>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-12 col-lg-9">
+                            <!-- Slide Content -->
+                            <div class="hero-slides-content" data-animation="fadeInUp" data-delay="100ms">
+                                <div class="line" data-animation="fadeInUp" data-delay="300ms"></div>
+                                <h2 data-animation="fadeInUp" data-delay="500ms">Find Your Perfect Stay</h2>
+                                <p data-animation="fadeInUp" data-delay="700ms">Compare prices from hundreds of booking sites to find the best deal on your ideal hotel. Save up to 80% with Bookify's exclusive offers and packages.</p>
+                                <a href="#" class="btn palatin-btn mt-50" data-animation="fadeInUp" data-delay="900ms">Explore Deals</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Single Hero Slide -->
+            <div class="single-hero-slide d-flex align-items-center justify-content-center">
+                <!-- Slide Img -->
+                <div class="slide-img bg-img" style="background-image: url(../static/img/bg-img/bg-2.jpg);"></div>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-12 col-lg-9">
+                            <!-- Slide Content -->
+                            <div class="hero-slides-content" data-animation="fadeInUp" data-delay="100ms">
+                                <div class="line" data-animation="fadeInUp" data-delay="300ms"></div>
+                                <h2 data-animation="fadeInUp" data-delay="500ms">Book Hotels Worldwide</h2>
+                                <p data-animation="fadeInUp" data-delay="700ms">Access over 2 million hotels and accommodations around the world. From budget-friendly options to luxury resorts, find the perfect place to stay with Bookify.</p>
+                                <a href="#" class="btn palatin-btn mt-50" data-animation="fadeInUp" data-delay="900ms">Search Hotels</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Single Hero Slide -->
+            <div class="single-hero-slide d-flex align-items-center justify-content-center">
+                <!-- Slide Img -->
+                <div class="slide-img bg-img" style="background-image: url(../static/img/bg-img/bg-3.jpg);"></div>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-12 col-lg-9">
+                            <!-- Slide Content -->
+                            <div class="hero-slides-content" data-animation="fadeInUp" data-delay="100ms">
+                                <div class="line" data-animation="fadeInUp" data-delay="300ms"></div>
+                                <h2 data-animation="fadeInUp" data-delay="500ms">Exclusive Travel Deals</h2>
+                                <p data-animation="fadeInUp" data-delay="700ms">Enjoy member-only deals, free cancellation options, and price-match guarantees. Sign up with Bookify today and start saving on your next trip.</p>
+                                <a href="#" class="btn palatin-btn mt-50" data-animation="fadeInUp" data-delay="900ms">Join Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Create space between hero slides and booking form -->
+        <div style="height: 120px;"></div>
+        
+        <!-- ##### Search Form Area ##### -->
+     <!-- ##### Book Now Area Start ##### -->
+     <div class="book-now-area" style="margin-top: 50px; position: relative; z-index: 100;">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-10">
+                    <div class="book-now-form">
+                        <!-- Add a clear heading for the booking options -->
+                        <div class="booking-options-header mb-4 text-center">
+                            <h3>Choose Your Travel Option</h3>
+                            <div style="width: 80px; height: 3px; background-color: #ce8954; margin: 10px auto;"></div>
+                        </div>
+                        
+                        <!-- COMPLETELY NEW SUPER PROMINENT TOGGLE USING DIRECT STYLES -->
+                        <div style="margin-bottom: 20px; width: 100%;">
+                            <div style="display: flex; width: 100%; border-radius: 10px; overflow: hidden; border: 1px solid #e0e0e0;">
+                                <button onclick="showTab('hotelSearch')" id="hotel-button" 
+                                        style="flex: 1; padding: 8px 15px; font-size: 16px; font-weight: 600; background-color: #ce8954; color: white; 
+                                               border: none; transition: all 0.3s ease; cursor: pointer; text-align: center; text-transform: uppercase; letter-spacing: 0.5px;">
+                                    <i class="fa fa-hotel" style="font-size: 16px; margin-right: 5px; vertical-align: middle;"></i> HOTELS
+                                </button>
+                                <button onclick="showTab('flightSearch')" id="flight-button" 
+                                        style="flex: 1; padding: 8px 15px; font-size: 16px; font-weight: 600; background-color: #f5f5f5; color: #555; 
+                                               border: none; transition: all 0.3s ease; cursor: pointer; text-align: center; text-transform: uppercase; letter-spacing: 0.5px;">
+                                    <i class="fa fa-plane" style="font-size: 16px; margin-right: 5px; vertical-align: middle;"></i> FLIGHTS
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="tab-content" id="bookingTabsContent">
+                            <!-- Hotel Search Tab -->
+                            <div class="tab-pane fade show active" id="hotelSearch" role="tabpanel">
+                                <form action="{% url 'hotels' %}" method="get">
+                                    <!-- Form Group -->
+                                    <div class="form-group">
+                                        <label for="city">Destination</label>
+                                        <input type="text" class="form-control" id="city" name="city" placeholder="City, region, or hotel name">
+                                    </div>
+                                    
+                                    <!-- Form Group -->
+                                    <div class="form-group">
+                                        <label for="check_in">Check In</label>
+                                        <input type="date" class="form-control" id="check_in" name="check_in">
+                                    </div>
+
+                                    <!-- Form Group -->
+                                    <div class="form-group">
+                                        <label for="check_out">Check Out</label>
+                                        <input type="date" class="form-control" id="check_out" name="check_out">
+                                    </div>
+
+                                    <!-- Form Group -->
+                                    <div class="form-group">
+                                        <label for="adults">Number of people</label>
+                                        <select class="form-control" id="adults" name="adults">
+                                            <option value="1">1 Adult</option>
+                                            <option value="2">2 Adults</option>
+                                            <option value="3">3 Adults</option>
+                                            <option value="4">4 Adults</option>
+                                            <option value="5">5 Adults</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn palatin-btn">Search Hotels</button>
+                                </form>
+                            </div>
+                            
+                            <!-- Flight Search Tab -->
+                            <div class="tab-pane fade" id="flightSearch" role="tabpanel">
+                                <form action="{% url 'flights:flights' %}" method="get">
+                                    <div class="form-group">
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" id="roundTrip" name="trip_type" value="round" class="custom-control-input" checked>
+                                            <label class="custom-control-label" for="roundTrip">Round Trip</label>
+                                        </div>
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" id="oneWay" name="trip_type" value="one-way" class="custom-control-input">
+                                            <label class="custom-control-label" for="oneWay">One Way</label>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Destination Cities in one container -->
+                                    <div class="form-group">
+                                        <div class="destination-container">
+                                            <div class="destination-part">
+                                                <label for="origin">From</label>
+                                                <input type="text" class="form-control" id="origin" name="origin" placeholder="City or airport code">
+                                            </div>
+                                            <div class="destination-part">
+                                                <label for="destination">To</label>
+                                                <input type="text" class="form-control" id="destination" name="destination" placeholder="City or airport code">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Travel Dates in one container -->
+                                    <div class="form-group">
+                                        <div class="dates-container">
+                                            <div class="date-part">
+                                                <label for="departure_date">Departure Date</label>
+                                                <input type="date" class="form-control" id="departure_date" name="departure_date">
+                                            </div>
+                                            <div class="date-part" id="return_date_container">
+                                                <label for="return_date">Return Date</label>
+                                                <input type="date" class="form-control" id="return_date" name="return_date">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Form Group -->
+                                    <div class="form-group">
+                                        <label for="flight_adults">Passengers</label>
+                                        <select class="form-control" id="flight_adults" name="adults">
+                                            <option value="1">1 Adult</option>
+                                            <option value="2">2 Adults</option>
+                                            <option value="3">3 Adults</option>
+                                            <option value="4">4 Adults</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <button type="submit" class="btn palatin-btn">Search Flights</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>   <!-- ##### Hero Area End ##### -->
+
+    <!-- Add JavaScript to toggle return date field visibility -->
+    <script>
+        // Custom tab toggle function
+        function showTab(tabId) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-pane').forEach(tab => {
+                tab.classList.remove('show', 'active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabId).classList.add('show', 'active');
+            
+            // Reset ALL button styles first
+            document.getElementById('hotel-button').style.backgroundColor = '#f5f5f5';
+            document.getElementById('hotel-button').style.color = '#555';
+            document.getElementById('flight-button').style.backgroundColor = '#f5f5f5';
+            document.getElementById('flight-button').style.color = '#555';
+            
+            // Then set active button
+            if (tabId === 'hotelSearch') {
+                document.getElementById('hotel-button').style.backgroundColor = '#ce8954';
+                document.getElementById('hotel-button').style.color = 'white';
+            } else {
+                document.getElementById('flight-button').style.backgroundColor = '#ce8954';
+                document.getElementById('flight-button').style.color = 'white';
+            }
+        }
+    
+        document.addEventListener('DOMContentLoaded', function() {
+            // Return date toggle functionality
+            const roundTrip = document.getElementById('roundTrip');
+            const oneWay = document.getElementById('oneWay');
+            const returnDateContainer = document.getElementById('return_date_container');
+            
+            function toggleReturnDate() {
+                if (oneWay.checked) {
+                    returnDateContainer.style.display = 'none';
+                } else {
+                    returnDateContainer.style.display = 'block';
+                }
+            }
+            
+            roundTrip.addEventListener('change', toggleReturnDate);
+            oneWay.addEventListener('change', toggleReturnDate);
+            
+            toggleReturnDate();
+        });
+    </script>
+
+    <!-- Add spacing to accommodate the search form -->
+    <div style="height: 85px;"></div>
+
+    <!-- ##### About Us Area Start ##### -->
+    <section class="about-us-area">
+        <div class="container">
+            <div class="row align-items-center">
+
+                <div class="col-12 col-lg-6">
+                    <div class="about-text text-center mb-100">
+                        <div class="section-heading text-center">
+                            <div class="line-"></div>
+                            <h2>Why Book With Bookify</h2>
+                        </div>
+                        <p>Bookify connects you with the best hotels worldwide at competitive prices. Our platform offers hassle-free booking, transparent pricing, and 24/7 customer support to ensure you have the perfect stay every time you travel.</p>
+                        <div class="about-key-text">
+                            <h6><span class="fa fa-check"></span> Best Price Guarantee - Find it cheaper & we'll match it</h6>
+                            <h6><span class="fa fa-check"></span> Free Cancellation on most rooms</h6>
+                            <h6><span class="fa fa-check"></span> Millions of verified guest reviews</h6>
+                            <h6><span class="fa fa-check"></span> 24/7 customer support in multiple languages</h6>
+                        </div>
+                        <a href="#" class="btn palatin-btn mt-50">Join Bookify</a>
+                    </div>
+                </div>
+
+                <div class="col-12 col-lg-6">
+                    <div class="about-thumbnail homepage mb-100">
+                        <!-- First Img -->
+                        <div class="first-img wow fadeInUp" data-wow-delay="100ms">
+                            <img src="{% static 'img/bg-img/5.jpg' %}" alt="">
+                        </div>
+                        <!-- Second Img -->
+                        <div class="second-img wow fadeInUp" data-wow-delay="300ms">
+                            <img src="{% static 'img/bg-img/6.jpg' %}" alt="">
+                        </div>
+                        <!-- Third Img-->
+                        <div class="third-img wow fadeInUp" data-wow-delay="500ms">
+                            <img src="{% static 'img/bg-img/7.jpg' %}" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ##### About Us Area End ##### -->
+
+    <!-- ##### Loyalty Program Area Start ##### -->
+    <section class="pool-area section-padding-100 bg-img bg-fixed" style="background-image: url(../static/img/bg-img/4.png);">
+        <div class="container">
+            <div class="row justify-content-end">
+                <div class="col-12 col-lg-7">
+                    <div class="pool-content text-center wow fadeInUp" data-wow-delay="300ms">
+                        <div class="section-heading text-center white">
+                            <div class="line-"></div>
+                            <h2>Bookify Rewards</h2>
+                            <p>Join our exclusive loyalty program and earn points with every booking. Redeem your points for free nights, room upgrades, and special perks at thousands of hotels worldwide. The more you stay, the more you earn!</p>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12 col-sm-4">
+                                <div class="pool-feature">
+                                    <i class="icon-cocktail-1"></i>
+                                    <p>Silver Tier</p>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-4">
+                                <div class="pool-feature">
+                                    <i class="icon-swimming-pool"></i>
+                                    <p>Gold Tier</p>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-4">
+                                <div class="pool-feature">
+                                    <i class="icon-beach"></i>
+                                    <p>Platinum Tier</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Button -->
+                        <a href="#" class="btn palatin-btn mt-50">Join Rewards</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ##### Loyalty Program Area End ##### -->
+
+    <!-- ##### Rooms Area Start ##### -->
+    <section class="rooms-area section-padding-100-0">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-6">
+                    <div class="section-heading text-center">
+                        <div class="line-"></div>
+                        <h2>Featured Hotels</h2>
+                        <p>Discover our handpicked selection of top-rated hotels worldwide. From luxury resorts to budget-friendly accommodations, find the perfect stay for your next trip.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+
+                <!-- Single Hotel Area -->
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="single-rooms-area wow fadeInUp" data-wow-delay="100ms">
+                        <!-- Thumbnail -->
+                        <div class="bg-thumbnail bg-img" style="background-image: url(../static/img/bg-img/1.jpg);"></div>
+                        <!-- Rating -->
+                        <div class="hotel-rating">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star-half-o"></i>
+                            <span>(4.8/5)</span>
+                        </div>
+                        <!-- Price -->
+                        <p class="price-from">From $150/night</p>
+                        <!-- Rooms Text -->
+                        <div class="rooms-text">
+                            <div class="line"></div>
+                            <h4>Grand Luxury Resort</h4>
+                            <p>New York, USA | 2.5 miles from center</p>
+                        </div>
+                        <!-- Book Room -->
+                        <a href="#" class="book-room-btn btn palatin-btn">View Details</a>
+                    </div>
+                </div>
+
+                <!-- Single Hotel Area -->
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="single-rooms-area wow fadeInUp" data-wow-delay="300ms">
+                        <!-- Thumbnail -->
+                        <div class="bg-thumbnail bg-img" style="background-image: url(../static/img/bg-img/8.jpg);"></div>
+                        <!-- Rating -->
+                        <div class="hotel-rating">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <span>(5.0/5)</span>
+                        </div>
+                        <!-- Price -->
+                        <p class="price-from">From $200/night</p>
+                        <!-- Rooms Text -->
+                        <div class="rooms-text">
+                            <div class="line"></div>
+                            <h4>Seaside Paradise Hotel</h4>
+                            <p>Miami, USA | 0.8 miles from beach</p>
+                        </div>
+                        <!-- Book Room -->
+                        <a href="#" class="book-room-btn btn palatin-btn">View Details</a>
+                    </div>
+                </div>
+
+                <!-- Single Hotel Area -->
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="single-rooms-area wow fadeInUp" data-wow-delay="500ms">
+                        <!-- Thumbnail -->
+                        <div class="bg-thumbnail bg-img" style="background-image: url(../static/img/bg-img/9.jpg);"></div>
+                        <!-- Rating -->
+                        <div class="hotel-rating">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star-o"></i>
+                            <i class="fa fa-star-o"></i>
+                            <span>(3.2/5)</span>
+                        </div>
+                        <!-- Price -->
+                        <p class="price-from">From $85/night</p>
+                        <!-- Rooms Text -->
+                        <div class="rooms-text">
+                            <div class="line"></div>
+                            <h4>City Central Inn</h4>
+                            <p>London, UK | 0.3 miles from center</p>
+                        </div>
+                        <!-- Book Room -->
+                        <a href="#" class="book-room-btn btn palatin-btn">View Details</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <!-- ##### Rooms Area End ##### -->
+
+    <!-- ##### Contact Area Start ##### -->
+    <section class="contact-area d-flex flex-wrap align-items-center">
+        <div class="home-map-area">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d22236.40558254599!2d-118.25292394686001!3d34.057682914027104!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2c75ddc27da13%3A0xe22fdf6f254608f4!2z4Kay4Ka4IOCmj-CmnuCnjeCmnOCnh-CmsuCnh-CmuCwg4KaV4KeN4Kav4Ka-4Kay4Ka_4Kar4KeL4Kaw4KeN4Kao4Ka_4Kav4Ka84Ka-LCDgpq7gpr7gprDgp43gppXgpr_gpqgg4Kav4KeB4KaV4KeN4Kak4Kaw4Ka-4Ka34KeN4Kaf4KeN4Kaw!5e0!3m2!1sbn!2sbd!4v1532328708137" allowfullscreen></iframe>
+        </div>
+        <!-- Contact Info -->
+        <div class="contact-info">
+            <div class="section-heading wow fadeInUp" data-wow-delay="100ms">
+                <div class="line-"></div>
+                <h2>24/7 Customer Support</h2>
+                <p>Our dedicated support team is available around the clock to assist you with any questions or issues. Whether you need help with booking, have special requests, or need to make changes to your reservation, we're here to help.</p>
+            </div>
+            <h4 class="wow fadeInUp" data-wow-delay="300ms">Download Our Mobile App</h4>
+            <p class="wow fadeInUp" data-wow-delay="400ms">Get exclusive mobile-only deals and manage your bookings on the go</p>
+            <div class="app-buttons mt-30 wow fadeInUp" data-wow-delay="500ms">
+                <a href="#" class="btn palatin-btn mr-30">App Store</a>
+                <a href="#" class="btn palatin-btn">Google Play</a>
+            </div>
+            <!-- Social Info -->
+            <div class="social-info mt-50 wow fadeInUp" data-wow-delay="600ms">
+                <a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a>
+                <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                <a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+            </div>
+        </div>
+    </section>
+    <!-- ##### Contact Area End ##### -->
+
+    {% endblock %}
+
+<!-- Add script at the end of the file to toggle return date -->
+{% block extra_js %}
+<script>
+    // This script is now handled inside the main template
+    // Keep this block to maintain compatibility with the base template
+</script>
+{% endblock %}
+
+<style>
+/* COMPLETELY OVERRIDE ALL BOOTSTRAP NAV STYLES */
+/* !important on every property to maximize specificity */
+/* This goes at the very top to ensure it overrides other styles */
+#bookingTabs {
+    --bs-nav-pills-link-active-bg: #ce8954 !important;
+    --bs-primary: #ce8954 !important;
+    --bs-link-color: #ce8954 !important;
+    --bs-primary-rgb: 206,137,84 !important;
+}
+
+#bookingTabs .nav-link.active,
+#bookingTabs .nav-link.active:hover,
+#bookingTabs .nav-link.active:focus,
+#bookingTabs .nav-link.active:active,
+#bookingTabs .nav-item .active,
+#hotel-tab.active,
+.nav-pills .nav-link.active, 
+.nav-pills .show > .nav-link {
+    background-color: #ce8954 !important;
+    color: white !important;
+    border-color: #ce8954 !important;
+    box-shadow: 0 0 0 0.25rem rgba(206, 137, 84, 0.25) !important;
+}
+
+#bookingTabs .nav-link:focus,
+#bookingTabs .nav-link:active,
+#bookingTabs a:focus,
+#bookingTabs button:focus {
+    color: #555 !important;
+    background-color: #f0d8c9 !important;
+    outline-color: #ce8954 !important;
+    box-shadow: 0 0 0 0.25rem rgba(206, 137, 84, 0.25) !important;
+    border-color: #ce8954 !important;
+}
+
+/* Target any Bootstrap CSS variables that might be used */
+:root {
+    --bs-primary: #ce8954 !important;
+    --bs-primary-rgb: 206,137,84 !important;
+    --bs-link-color: #ce8954 !important;
+    --bs-link-hover-color: #ce8954 !important;
+    --bs-nav-pills-link-active-bg: #ce8954 !important;
+}
+
+/* Added at top of existing styles */
+.booking-options-header h3 {
+    color: #ce8954;
+    font-weight: 700;
+    font-size: 28px;
+    margin-bottom: 15px;
+}
+
+/* Add spacing below hero area */
+.book-now-area {
+    box-shadow: 0 10px 30px rgba(206, 137, 84, 0.15);
+    border-radius: 15px;
+    overflow: hidden;
+    border-top: 5px solid #ce8954;
+}
+
+/* Make sure the tab content displays properly */
+.tab-content {
+    display: block;
+    width: 100%;
+}
+
+.tab-pane {
+    width: 100%;
+}
+
+/* Add this at the top of your style block to ensure highest priority */
+.booking-tabs .nav-link.custom-tab.active {
+    background-color: #ce8954 !important;
+    color: white !important;
+    border-color: #ce8954 !important;
+}
+
+.booking-tabs .nav-link.custom-tab:focus {
+    box-shadow: 0 0 0 0.25rem rgba(206, 137, 84, 0.25) !important;
+}
+
+/* Override any Bootstrap focus styles */
+.nav-pills .nav-link.active, 
+.nav-pills .show > .nav-link,
+.nav-pills .nav-link:focus,
+.nav-pills .nav-link.active:focus {
+    background-color: #ce8954 !important;
+    color: white !important;
+    box-shadow: 0 0 0 0.25rem rgba(206, 137, 84, 0.25) !important;
+}
+
+/* Custom toggle buttons instead of Bootstrap nav */
+.booking-toggle-container {
+    width: 100%;
+    margin: 0 auto 30px;
+}
+
+.booking-toggle-buttons {
+    display: flex;
+    width: 100%;
+    margin: 0 auto;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    border-radius: 15px;
+    overflow: hidden;
+    border: 2px solid #e0e0e0;
+}
+
+.toggle-button {
+    flex: 1;
+    padding: 35px 20px; /* Much taller buttons */
+    font-size: 28px; /* Larger font */
+    font-weight: 800;
+    letter-spacing: 2px;
+    border: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.toggle-button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(206, 137, 84, 0.2);
+}
+
+.toggle-button.active {
+    background-color: #ce8954 !important;
+    color: white !important;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.toggle-button i {
+    font-size: 32px; /* Larger icons */
+    margin-right: 15px;
+    vertical-align: middle;
+}
+
+/* Form group consistent display */
+.form-group {
+    margin-bottom: 20px;
+}
+</style>

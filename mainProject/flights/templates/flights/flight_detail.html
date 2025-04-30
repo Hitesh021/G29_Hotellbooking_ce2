@@ -1,0 +1,267 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-xxl py-5">
+    <div class="container">
+        <!-- Super Visible Identifier -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card" style="background-color: {{ bg_color|default:'#f8f9fa' }}; color: {{ text_color|default:'#000000' }}">
+                    <div class="card-body text-center">
+                        <h2 class="display-4">FLIGHT #{{ offer_id }}</h2>
+                        <p class="lead">This is a UNIQUE page with ID: {{ offer_id }}</p>
+                        <p>Timestamp: {{ timestamp }}</p>
+                        <p>Random value: {{ random_value }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Debug Information -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card bg-light">
+                    <div class="card-body">
+                        <h5 class="card-title">Debug Information</h5>
+                        <p class="mb-1">Requested ID: <strong>{{ offer_id }}</strong></p>
+                        <p class="mb-1">Unique Number: <strong>{{ unique_number }}</strong></p>
+                        <p class="mb-1">Layout Type: <strong>{{ layout_type }}</strong></p>
+                        {% if debug_flight_id %}
+                        <p class="mb-1">Loaded ID: <strong>{{ debug_flight_id }}</strong></p>
+                        {% endif %}
+                        {% if debug_data_source %}
+                        <p class="mb-1">Data Source: <strong>{{ debug_data_source }}</strong></p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        {% if error %}
+        <!-- Layout Type 1: Error Layout -->
+        <div class="row mb-5">
+            <div class="col-lg-12">
+                <div class="alert alert-danger" role="alert" style="background-color: {{ bg_color|default:'#f8d7da' }}; color: {{ text_color|default:'#721c24' }}">
+                    <h4 class="alert-heading">Error {{ unique_number }}</h4>
+                    <p>{{ error }}</p>
+                </div>
+                <div class="text-center mt-4">
+                    <a href="{% url 'flights' %}" class="btn btn-primary">Back to Flight Search</a>
+                </div>
+            </div>
+        </div>
+        
+        {% elif minimal %}
+        <!-- Layout Type 2: Minimalist Layout -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card shadow mb-5" style="background-color: {{ bg_color|default:'#ffffff' }}; color: {{ text_color|default:'#000000' }}">
+                    <div class="card-header text-white" style="background-color: #{{ unique_number|stringformat:'06d'|slice:':6' }}">
+                        <h5 class="mb-0">{{ flight_number }}</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="text-center">
+                                <h1 class="display-4">{{ departure }}</h1>
+                                <p>Departure</p>
+                            </div>
+                            
+                            <div class="text-center">
+                                <i class="fa fa-plane" style="font-size: 2rem;"></i>
+                                <div class="progress mt-2" style="height: 5px;">
+                                    <div class="progress-bar bg-success" style="width: 100%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="text-center">
+                                <h1 class="display-4">{{ arrival }}</h1>
+                                <p>Arrival</p>
+                            </div>
+                        </div>
+                        
+                        <div class="text-center mt-5">
+                            <h3 class="text-primary">{{ price }}</h3>
+                            <a href="{% url 'flights' %}" class="btn btn-outline-primary mt-3">Back to Search</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        {% elif flight %}
+        <!-- Layout Type 0: Standard Flight Data Layout -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card shadow mb-5">
+                    <div class="card-header text-white" style="background-color: {{ bg_color|default:'#0d6efd' }}">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Flight #{{ flight.id }} (Unique: {{ unique_number }})</h5>
+                            <span class="badge bg-warning text-dark">ID: {{ offer_id }}</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <!-- Flight Info -->
+                        <div class="row">
+                            <!-- Left column: Flight Details -->
+                            <div class="col-md-8">
+                                <!-- Special identifier badge -->
+                                <div class="alert alert-info mb-4">
+                                    <h4 class="alert-heading">DYNAMIC CONTENT FOR ID: {{ offer_id }}</h4>
+                                    <p>This flight has a unique number: {{ unique_number }}</p>
+                                </div>
+                                
+                                <!-- Outbound Journey -->
+                                {% if flight.itineraries.0 %}
+                                <div class="mb-5">
+                                    <h4 class="mb-4">Outbound Journey</h4>
+                                    {% with itinerary=flight.itineraries.0 %}
+                                    
+                                    {% for segment in itinerary.segments %}
+                                    <div class="card mb-3" style="border-color: {{ bg_color|default:'#dee2e6' }}">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <!-- Departure Info -->
+                                                <div class="col-md-4 text-center">
+                                                    <h5 class="mb-0">{{ segment.departure.iataCode }}</h5>
+                                                    <p class="mb-0 fw-bold">
+                                                        {% if segment.departure.at %}
+                                                        {{ segment.departure.at|slice:":16"|date:"h:i A" }}
+                                                        {% else %}
+                                                        Time N/A
+                                                        {% endif %}
+                                                    </p>
+                                                </div>
+                                                
+                                                <!-- Flight Info -->
+                                                <div class="col-md-4 text-center">
+                                                    <p class="mb-0">Flight {{ segment.carrierCode }}{{ segment.number }}</p>
+                                                    <div class="progress my-2" style="height: 5px;">
+                                                        <div class="progress-bar" role="progressbar" style="width: 100%; background-color: {{ bg_color|default:'#0d6efd' }}"></div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- Arrival Info -->
+                                                <div class="col-md-4 text-center">
+                                                    <h5 class="mb-0">{{ segment.arrival.iataCode }}</h5>
+                                                    <p class="mb-0 fw-bold">
+                                                        {% if segment.arrival.at %}
+                                                        {{ segment.arrival.at|slice:":16"|date:"h:i A" }}
+                                                        {% else %}
+                                                        Time N/A
+                                                        {% endif %}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                    
+                                    {% endwith %}
+                                </div>
+                                {% endif %}
+                                
+                                <!-- Return Journey (if any) -->
+                                {% if flight.itineraries.1 %}
+                                <div class="mb-4">
+                                    <h4 class="mb-4">Return Journey</h4>
+                                    {% with itinerary=flight.itineraries.1 %}
+                                    
+                                    {% for segment in itinerary.segments %}
+                                    <div class="card mb-3" style="border-color: {{ bg_color|default:'#dee2e6' }}">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <!-- Departure Info -->
+                                                <div class="col-md-4 text-center">
+                                                    <h5 class="mb-0">{{ segment.departure.iataCode }}</h5>
+                                                    <p class="mb-0 fw-bold">
+                                                        {% if segment.departure.at %}
+                                                        {{ segment.departure.at|slice:":16"|date:"h:i A" }}
+                                                        {% else %}
+                                                        Time N/A
+                                                        {% endif %}
+                                                    </p>
+                                                </div>
+                                                
+                                                <!-- Flight Info -->
+                                                <div class="col-md-4 text-center">
+                                                    <p class="mb-0">Flight {{ segment.carrierCode }}{{ segment.number }}</p>
+                                                    <div class="progress my-2" style="height: 5px;">
+                                                        <div class="progress-bar" role="progressbar" style="width: 100%; background-color: {{ bg_color|default:'#0d6efd' }}"></div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- Arrival Info -->
+                                                <div class="col-md-4 text-center">
+                                                    <h5 class="mb-0">{{ segment.arrival.iataCode }}</h5>
+                                                    <p class="mb-0 fw-bold">
+                                                        {% if segment.arrival.at %}
+                                                        {{ segment.arrival.at|slice:":16"|date:"h:i A" }}
+                                                        {% else %}
+                                                        Time N/A
+                                                        {% endif %}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                    
+                                    {% endwith %}
+                                </div>
+                                {% endif %}
+                            </div>
+                            
+                            <!-- Right column: Price and Details -->
+                            <div class="col-md-4">
+                                <!-- Price Card -->
+                                <div class="card mb-4">
+                                    <div class="card-header" style="background-color: {{ bg_color|default:'#f8f9fa' }}; color: {{ text_color|default:'#000000' }}">
+                                        <h5 class="mb-0">Price Summary</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        {% if flight.price %}
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span>Base Fare:</span>
+                                            <strong>${{ flight.price.base }}</strong>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span>Taxes & Fees:</span>
+                                            <strong>${{ flight.price.taxes }}</strong>
+                                        </div>
+                                        <hr>
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span>Total Price:</span>
+                                            <strong style="color: {{ bg_color|default:'#0d6efd' }}">${{ flight.price.total }}</strong>
+                                        </div>
+                                        {% else %}
+                                        <p class="text-center">Price information not available</p>
+                                        {% endif %}
+                                        
+                                        <div class="mt-4">
+                                            <a href="{% url 'flights' %}" class="btn btn-outline-secondary w-100">Back to Search</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="row">
+            <div class="col-12">
+                <div class="card" style="background-color: {{ bg_color|default:'#ffffff' }}; color: {{ text_color|default:'#000000' }}">
+                    <div class="card-body text-center py-5">
+                        <h3 class="mb-4">No Flight Details Available</h3>
+                        <p class="mb-4">We couldn't find information for flight #{{ offer_id }}.</p>
+                        <p>Unique reference: {{ unique_number }}</p>
+                        <a href="{% url 'flights' %}" class="btn btn-primary">Back to Flight Search</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %} 

@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Booking Details - Bookify{% endblock %}
+
+{% block uniqueArea %}
+    <!-- ##### Breadcumb Area Start ##### -->
+    <section class="breadcumb-area bg-img d-flex align-items-center justify-content-center" style="background-image: url(../static/img/bg-img/bg-7.jpg);">
+        <div class="bradcumbContent">
+            <h2>Booking Details</h2>
+        </div>
+    </section>
+    <!-- ##### Breadcumb Area End ##### -->
+
+    <!-- ##### Booking Details Area Start ##### -->
+    <section class="about-us-area section-padding-100-0">
+        <div class="container">
+            {% if error %}
+                <div class="row">
+                    <div class="col-12">
+                        <div class="alert alert-warning">
+                            <p style="font-size: 17px;">{{ error }}</p>
+                            <p style="font-size: 17px;">Please try a different offer.</p>
+                        </div>
+                    </div>
+                </div>
+            {% elif offer_data %}
+                <div class="row">
+                    <div class="col-12">
+                        <div class="section-heading">
+                            <div class="line-"></div>
+                            <h2>{{ offer_data.hotel.name }}</h2>
+                            <p style="font-size: 17px;">
+                                {{ offer_data.hotel.address.lines.0 }}<br>
+                                {{ offer_data.hotel.address.cityName }}, {{ offer_data.hotel.address.countryCode }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-12 col-lg-6">
+                        <div class="card mb-5">
+                            <div class="card-header">
+                                <h4>Booking Summary</h4>
+                            </div>
+                            <div class="card-body">
+                                <p style="font-size: 17px;"><strong>Room Type:</strong> {{ offer_data.offers.0.room.typeEstimated.category }}</p>
+                                <p style="font-size: 17px;"><strong>Check-in:</strong> {{ offer_data.offers.0.checkInDate }}</p>
+                                <p style="font-size: 17px;"><strong>Check-out:</strong> {{ offer_data.offers.0.checkOutDate }}</p>
+                                <p style="font-size: 17px;"><strong>Guests:</strong> {{ offer_data.offers.0.guests.adults }} Adult(s)</p>
+                                <p style="font-size: 17px;"><strong>Total Price:</strong> ${{ offer_data.offers.0.price.total }}</p>
+                                
+                                {% if offer_data.offers.0.policies.cancellations %}
+                                    <div class="mt-4">
+                                        <h5>Cancellation Policy</h5>
+                                        {% for policy in offer_data.offers.0.policies.cancellations %}
+                                            <p style="font-size: 17px;">
+                                                {% if policy.amount %}
+                                                    ${{ policy.amount }} fee if cancelled after {{ policy.deadline }}
+                                                {% else %}
+                                                    Free cancellation until {{ policy.deadline }}
+                                                {% endif %}
+                                            </p>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                                
+                                {% if offer_data.offers.0.policies.paymentType %}
+                                    <div class="mt-4">
+                                        <h5>Payment Information</h5>
+                                        <p style="font-size: 17px;">Payment Type: {{ offer_data.offers.0.policies.paymentType }}</p>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-12 col-lg-6">
+                        <div class="card mb-5">
+                            <div class="card-header">
+                                <h4>Guest Information</h4>
+                            </div>
+                            <div class="card-body">
+                                <form action="#" method="post">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <label for="firstName">First Name</label>
+                                        <input type="text" class="form-control" id="firstName" name="firstName" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="lastName">Last Name</label>
+                                        <input type="text" class="form-control" id="lastName" name="lastName" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email">Email</label>
+                                        <input type="email" class="form-control" id="email" name="email" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="phone">Phone</label>
+                                        <input type="tel" class="form-control" id="phone" name="phone" required>
+                                    </div>
+                                    
+                                    <div class="form-group mt-4">
+                                        <h5>Payment Details</h5>
+                                        <div class="form-group">
+                                            <label for="cardNumber">Card Number</label>
+                                            <input type="text" class="form-control" id="cardNumber" name="cardNumber" placeholder="1234 5678 9012 3456" required>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label for="expiryDate">Expiry Date</label>
+                                                    <input type="text" class="form-control" id="expiryDate" name="expiryDate" placeholder="MM/YY" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label for="cvv">CVV</label>
+                                                    <input type="text" class="form-control" id="cvv" name="cvv" placeholder="123" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <button type="submit" class="btn palatin-btn w-100 mt-4">Complete Booking</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+    <!-- ##### Booking Details Area End ##### -->
+{% endblock %}
